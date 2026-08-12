@@ -1,10 +1,13 @@
 import {
+  BookMarked,
   BookOpen,
+  FilePenLine,
   FileText,
   GraduationCap,
   Home,
   Layers3,
   ListTree,
+  Scale,
   ShieldCheck,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
@@ -17,6 +20,9 @@ const navItems = [
   { to: '/admin/unidades', label: 'Unidades', icon: GraduationCap },
   { to: '/admin/temas', label: 'Temas', icon: ListTree },
   { to: '/admin/documentos', label: 'Documentos', icon: FileText },
+  { to: '/admin/contenido', label: 'Contenido', icon: FilePenLine },
+  { to: '/admin/normativa', label: 'Normativa', icon: Scale },
+  { to: '/admin/lecturas', label: 'Lecturas', icon: BookMarked },
 ]
 
 function AdminShell({ title, description, children, actions }) {

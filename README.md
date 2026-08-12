@@ -4,21 +4,27 @@ Plataforma académica de apoyo para estudiantes de Derecho.
 
 ## Versión actual
 
-**v0.2.0 — Administración académica**
+**v0.4.0 — Contenido jurídico y área de estudio**
 
 Funciones disponibles:
 
-- React + Vite
+- React + Vite con carga diferida de rutas
 - Supabase PostgreSQL + Auth + RLS
 - GitHub Pages
 - Registro, inicio y cierre de sesión
 - Roles `student`, `admin` y `superadmin`
-- Dashboard inicial
-- Visor de PDF mediante enlaces de Google Drive
-- CRUD administrativo de semestres
-- CRUD administrativo de materias
-- CRUD administrativo de unidades
-- CRUD administrativo de temas y subtemas
+- Dashboard del estudiante
+- CRUD administrativo de semestres, materias, unidades, temas y subtemas
+- CRUD de documentos/compendios mediante enlaces de Google Drive
+- Biblioteca y visor PDF integrado
+- CRUD de bloques de contenido académico
+- CRUD de fuentes legales y artículos
+- Relación de artículos con temas
+- CRUD de lecturas recomendadas y relación con temas
+- Página de estudio por materia
+- Página de estudio por unidad
+- 20 unidades iniciales de cuarto semestre
+- Configuración base de simuladores: 30 preguntas por unidad y 100 por materia
 
 ## Desarrollo local
 
@@ -45,6 +51,16 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 
 `.env.local` no debe subirse al repositorio.
 
+## Migraciones
+
+Después de aplicar una versión que incluya migraciones:
+
+```powershell
+npx supabase migration list
+npx supabase db push
+npx supabase migration list
+```
+
 ## Próxima versión
 
-La v0.3 incorporará administración de documentos/compendios mediante enlaces de Google Drive y su visor integrado dentro de la estructura académica.
+La v0.5 incorporará el banco de preguntas, importación masiva y la base del motor de simuladores.

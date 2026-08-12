@@ -1243,3 +1243,401 @@ a {
     grid-column: auto;
   }
 }
+
+/* =========================================================
+   CONTENIDO JURÍDICO Y ÁREA DE ESTUDIO v0.4
+   ========================================================= */
+
+.admin-form-span-2 {
+  grid-column: 1 / -1;
+}
+
+.admin-content-textarea {
+  min-height: 170px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.admin-content-table {
+  min-width: 1040px;
+}
+
+.admin-content-preview {
+  display: -webkit-box;
+  max-width: 420px;
+  overflow: hidden;
+  color: #536078;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.admin-inner-table,
+.admin-legal-relations-table,
+.admin-reading-relations-table {
+  min-width: 900px;
+}
+
+.admin-help-card {
+  padding: 16px 18px;
+  border: 1px dashed #cfd6e2;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #536078;
+  line-height: 1.6;
+}
+
+.study-page {
+  padding-top: 34px;
+}
+
+.study-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: #667085;
+  font-size: 14px;
+}
+
+.study-breadcrumbs a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.study-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.study-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 38px;
+  border: 1px solid #dfe5ee;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 38px rgba(17, 24, 39, 0.05);
+}
+
+.study-hero h1 {
+  margin: 6px 0 14px;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.08;
+}
+
+.study-hero > div > p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 0;
+  color: #667085;
+  line-height: 1.7;
+}
+
+.learning-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 20px;
+  padding: 15px 17px;
+  border-left: 4px solid #172033;
+  border-radius: 0 10px 10px 0;
+  background: #f5f7fb;
+}
+
+.learning-outcome span {
+  color: #536078;
+  line-height: 1.55;
+}
+
+.unit-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.unit-study-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+  border: 1px solid #e2e7ef;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.unit-study-number {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.unit-study-card h2 {
+  margin: 16px 0 10px;
+  font-size: 23px;
+}
+
+.unit-study-card > p {
+  flex: 1;
+  margin: 0;
+  color: #667085;
+  line-height: 1.65;
+}
+
+.unit-study-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 22px 0;
+  color: #536078;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.unit-study-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.study-final-exam,
+.study-unit-quiz {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-top: 28px;
+  padding: 30px;
+  border: 1px solid #dfe5ee;
+  border-radius: 20px;
+  background: #172033;
+  color: #fff;
+}
+
+.study-final-exam h2,
+.study-unit-quiz h2 {
+  margin: 5px 0 8px;
+}
+
+.study-final-exam p,
+.study-unit-quiz p {
+  margin: 0;
+  color: #d8dfeb;
+  line-height: 1.6;
+}
+
+.study-final-exam .eyebrow,
+.study-unit-quiz .eyebrow {
+  color: #d8dfeb;
+}
+
+.study-final-exam .status-badge,
+.study-unit-quiz .status-badge {
+  flex: 0 0 auto;
+  margin: 0;
+  background: #fff;
+  color: #172033;
+}
+
+.study-section {
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid #e4e8ef;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.study-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.study-section-heading h2,
+.study-section-heading p {
+  margin: 0;
+}
+
+.study-section-heading p {
+  margin-top: 5px;
+  color: #667085;
+}
+
+.study-content-list,
+.study-topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.study-content-block {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #e6eaf1;
+  border-radius: 14px;
+  background: #fbfcfe;
+}
+
+.study-content-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #eef2f7;
+}
+
+.study-content-type {
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.study-content-block h3 {
+  margin: 0 0 8px;
+}
+
+.study-rich-text {
+  white-space: pre-wrap;
+  color: #344054;
+  line-height: 1.72;
+}
+
+.study-topic {
+  padding: 20px;
+  border: 1px solid #e4e8ef;
+  border-radius: 15px;
+}
+
+.study-topic.is-subtopic {
+  margin-left: 34px;
+  border-left: 4px solid #9aa6b8;
+  background: #fafbfd;
+}
+
+.study-topic-heading span {
+  color: #667085;
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.study-topic-heading h3 {
+  margin: 5px 0 6px;
+}
+
+.study-topic-heading p {
+  margin: 0 0 14px;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.study-topic .study-content-block {
+  margin-top: 14px;
+}
+
+.study-empty-inline {
+  padding: 18px;
+  border: 1px dashed #cfd6e2;
+  border-radius: 12px;
+  background: #fafbfd;
+  color: #667085;
+}
+
+.legal-study-grid,
+.reading-study-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.legal-study-card,
+.reading-study-card {
+  padding: 20px;
+  border: 1px solid #e4e8ef;
+  border-radius: 15px;
+  background: #fbfcfe;
+}
+
+.legal-study-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #667085;
+  font-size: 12px;
+}
+
+.legal-study-card h3,
+.reading-study-card h3 {
+  margin: 8px 0;
+}
+
+.legal-study-card p,
+.reading-study-card p {
+  color: #667085;
+  line-height: 1.6;
+}
+
+.legal-study-card .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reading-study-card .button-secondary {
+  margin-top: 8px;
+}
+
+.study-note {
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #eef2f7;
+  color: #475467 !important;
+}
+
+@media (max-width: 850px) {
+  .unit-card-grid,
+  .legal-study-grid,
+  .reading-study-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .study-hero,
+  .study-final-exam,
+  .study-unit-quiz {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .study-topic.is-subtopic {
+    margin-left: 14px;
+  }
+}
+
+@media (max-width: 620px) {
+  .study-section,
+  .study-hero,
+  .unit-study-card {
+    padding: 22px;
+  }
+
+  .study-content-block {
+    grid-template-columns: 1fr;
+  }
+}

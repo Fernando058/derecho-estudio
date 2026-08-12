@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom'
 import {
+  BookMarked,
   BookOpen,
+  FilePenLine,
   FileQuestion,
   FileText,
   GraduationCap,
   Layers3,
   ListTree,
+  Scale,
   Users,
 } from 'lucide-react'
 import AdminShell from '../components/admin/AdminShell'
@@ -41,10 +44,28 @@ const modules = [
     description: 'Gestionar compendios y recursos enlazados desde Google Drive.',
     icon: FileText,
   },
+  {
+    to: '/admin/contenido',
+    title: 'Contenido académico',
+    description: 'Crear análisis, resúmenes, conceptos clave y orientaciones de estudio.',
+    icon: FilePenLine,
+  },
+  {
+    to: '/admin/normativa',
+    title: 'Normativa',
+    description: 'Gestionar fuentes legales, artículos y su relación con cada tema.',
+    icon: Scale,
+  },
+  {
+    to: '/admin/lecturas',
+    title: 'Lecturas',
+    description: 'Administrar bibliografía y lecturas recomendadas por tema.',
+    icon: BookMarked,
+  },
 ]
 
 const futureModules = [
-  { title: 'Preguntas', description: 'Banco de preguntas y simuladores.', icon: FileQuestion },
+  { title: 'Preguntas', description: 'Banco de preguntas, importación y simuladores.', icon: FileQuestion },
   { title: 'Usuarios', description: 'Estudiantes, administradores y permisos.', icon: Users },
 ]
 
@@ -52,28 +73,28 @@ function AdminPage() {
   return (
     <AdminShell
       title="Resumen administrativo"
-      description="Desde aquí se administra la estructura académica completa de Derecho Estudio."
+      description="Gestiona la estructura, contenido jurídico, normativa, lecturas y documentos de Derecho Estudio."
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.3</strong>
-          <span>Administración académica + documentos</span>
+          <strong>v0.4</strong>
+          <span>Contenido jurídico y área de estudio</span>
         </article>
         <article className="admin-stat-card">
-          <strong>5</strong>
+          <strong>8</strong>
           <span>Módulos CRUD disponibles</span>
         </article>
         <article className="admin-stat-card">
-          <strong>5</strong>
-          <span>Materias iniciales cargadas</span>
+          <strong>20</strong>
+          <span>Unidades iniciales preparadas</span>
         </article>
       </section>
 
       <section className="admin-card">
         <div className="admin-card-heading">
           <div>
-            <h2>Estructura académica</h2>
-            <p>Estos módulos ya están operativos y conectados con Supabase.</p>
+            <h2>Módulos operativos</h2>
+            <p>Todos estos módulos están conectados con Supabase y protegidos mediante RLS.</p>
           </div>
         </div>
 
@@ -93,7 +114,7 @@ function AdminPage() {
         <div className="admin-card-heading">
           <div>
             <h2>Próximos módulos</h2>
-            <p>Se incorporarán en las siguientes versiones sin rehacer la arquitectura actual.</p>
+            <p>La siguiente fase habilitará el banco de preguntas y el motor de evaluación.</p>
           </div>
         </div>
 

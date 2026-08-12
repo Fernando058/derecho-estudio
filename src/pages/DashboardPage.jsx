@@ -237,9 +237,12 @@ function DashboardPage() {
                       </p>
                     </div>
 
-                    <span className="status-badge">
-                      Próximamente
-                    </span>
+                    <Link
+                      className="button-secondary"
+                      to={`/materias/${subject.slug}`}
+                    >
+                      Estudiar materia →
+                    </Link>
                   </article>
                 ),
               )}
