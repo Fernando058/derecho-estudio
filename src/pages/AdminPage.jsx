@@ -1,176 +1,109 @@
 import { Link } from 'react-router-dom'
-
 import {
   BookOpen,
-  Database,
   FileQuestion,
   FileText,
   GraduationCap,
-  ShieldCheck,
+  Layers3,
+  ListTree,
   Users,
 } from 'lucide-react'
+import AdminShell from '../components/admin/AdminShell'
 
-import { useAuth } from '../context/AuthContext'
+const modules = [
+  {
+    to: '/admin/semestres',
+    title: 'Semestres',
+    description: 'Crear, editar, publicar y ordenar niveles académicos.',
+    icon: Layers3,
+  },
+  {
+    to: '/admin/materias',
+    title: 'Materias',
+    description: 'Gestionar las asignaturas vinculadas a cada semestre.',
+    icon: BookOpen,
+  },
+  {
+    to: '/admin/unidades',
+    title: 'Unidades',
+    description: 'Administrar las cuatro unidades de cada materia.',
+    icon: GraduationCap,
+  },
+  {
+    to: '/admin/temas',
+    title: 'Temas y subtemas',
+    description: 'Organizar la estructura temática interna de cada unidad.',
+    icon: ListTree,
+  },
+]
+
+const futureModules = [
+  { title: 'Documentos', description: 'Compendios y enlaces de Google Drive.', icon: FileText },
+  { title: 'Preguntas', description: 'Banco de preguntas y simuladores.', icon: FileQuestion },
+  { title: 'Usuarios', description: 'Estudiantes, administradores y permisos.', icon: Users },
+]
 
 function AdminPage() {
-  const {
-    profile,
-    isSuperAdmin,
-  } = useAuth()
-
   return (
-    <main className="page">
-      <section className="dashboard-header">
-        <div>
-          <p className="eyebrow">
-            Administración
-          </p>
+    <AdminShell
+      title="Resumen administrativo"
+      description="Desde aquí se administra la estructura académica completa de Derecho Estudio."
+    >
+      <section className="admin-stats-grid">
+        <article className="admin-stat-card">
+          <strong>v0.2</strong>
+          <span>Módulo administrativo académico</span>
+        </article>
+        <article className="admin-stat-card">
+          <strong>4</strong>
+          <span>Niveles CRUD disponibles</span>
+        </article>
+        <article className="admin-stat-card">
+          <strong>5</strong>
+          <span>Materias iniciales cargadas</span>
+        </article>
+      </section>
 
-          <h1>
-            Panel administrativo
-          </h1>
-
-          <p>
-            Gestión académica y de contenidos
-            de Derecho Estudio.
-          </p>
+      <section className="admin-card">
+        <div className="admin-card-heading">
+          <div>
+            <h2>Estructura académica</h2>
+            <p>Estos módulos ya están operativos y conectados con Supabase.</p>
+          </div>
         </div>
 
-        <span className="admin-badge">
-          <ShieldCheck size={18} />
-
-          {isSuperAdmin
-            ? 'Superadministrador'
-            : 'Administrador'}
-        </span>
+        <div className="admin-module-grid">
+          {modules.map(({ to, title, description, icon: Icon }) => (
+            <Link className="admin-module-card" key={to} to={to}>
+              <Icon size={28} />
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <span>Administrar →</span>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <section className="dashboard-grid">
-        <article className="dashboard-card">
-          <GraduationCap size={30} />
+      <section className="admin-card">
+        <div className="admin-card-heading">
+          <div>
+            <h2>Próximos módulos</h2>
+            <p>Se incorporarán en las siguientes versiones sin rehacer la arquitectura actual.</p>
+          </div>
+        </div>
 
-          <h2>
-            Estructura académica
-          </h2>
-
-          <p>
-            Semestres, materias,
-            unidades y temas.
-          </p>
-        </article>
-
-        <article className="dashboard-card">
-          <BookOpen size={30} />
-
-          <h2>
-            Contenido
-          </h2>
-
-          <p>
-            Análisis, conceptos
-            y material académico.
-          </p>
-        </article>
-
-        <article className="dashboard-card">
-          <FileText size={30} />
-
-          <h2>
-            Documentos
-          </h2>
-
-          <p>
-            Compendios y enlaces
-            de Google Drive.
-          </p>
-        </article>
-
-        <article className="dashboard-card">
-          <FileQuestion size={30} />
-
-          <h2>
-            Preguntas
-          </h2>
-
-          <p>
-            Banco de preguntas
-            y simuladores.
-          </p>
-        </article>
-
-        <article className="dashboard-card">
-          <Users size={30} />
-
-          <h2>
-            Usuarios
-          </h2>
-
-          <p>
-            Estudiantes y
-            administradores.
-          </p>
-        </article>
-
-        <article className="dashboard-card">
-          <Database size={30} />
-
-          <h2>
-            Analítica
-          </h2>
-
-          <p>
-            Rendimiento,
-            errores y progreso.
-          </p>
-        </article>
+        <div className="admin-module-grid">
+          {futureModules.map(({ title, description, icon: Icon }) => (
+            <article className="admin-module-card is-disabled" key={title}>
+              <Icon size={28} />
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <span>Próxima versión</span>
+            </article>
+          ))}
+        </div>
       </section>
-
-      <section
-        className="feature-card"
-        style={{
-          marginTop: '28px',
-        }}
-      >
-        <h2>
-          Sesión administrativa
-        </h2>
-
-        <p>
-          Usuario:
-          {' '}
-          <strong>
-            {profile?.full_name}
-          </strong>
-        </p>
-
-        <p>
-          Correo:
-          {' '}
-          {profile?.email}
-        </p>
-
-        <p>
-          Rol:
-          {' '}
-          <strong>
-            {profile?.role}
-          </strong>
-        </p>
-      </section>
-
-      <div
-        style={{
-          marginTop: '24px',
-        }}
-      >
-        <Link
-          to="/dashboard"
-          className="back-link"
-        >
-          ← Volver al dashboard
-        </Link>
-      </div>
-    </main>
+    </AdminShell>
   )
 }
 

@@ -1,16 +1,50 @@
-# React + Vite
+# Derecho Estudio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Plataforma académica de apoyo para estudiantes de Derecho.
 
-Currently, two official plugins are available:
+## Versión actual
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**v0.2.0 — Administración académica**
 
-## React Compiler
+Funciones disponibles:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite
+- Supabase PostgreSQL + Auth + RLS
+- GitHub Pages
+- Registro, inicio y cierre de sesión
+- Roles `student`, `admin` y `superadmin`
+- Dashboard inicial
+- Visor de PDF mediante enlaces de Google Drive
+- CRUD administrativo de semestres
+- CRUD administrativo de materias
+- CRUD administrativo de unidades
+- CRUD administrativo de temas y subtemas
 
-## Expanding the Oxlint configuration
+## Desarrollo local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```powershell
+npm install
+npm run dev
+```
+
+## Validación
+
+```powershell
+npm run build
+npm run lint
+```
+
+## Variables de entorno
+
+Copia `.env.example` a `.env.local` y completa:
+
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+```
+
+`.env.local` no debe subirse al repositorio.
+
+## Próxima versión
+
+La v0.3 incorporará administración de documentos/compendios mediante enlaces de Google Drive y su visor integrado dentro de la estructura académica.

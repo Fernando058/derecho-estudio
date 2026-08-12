@@ -29,6 +29,10 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
 import AdminPage from './pages/AdminPage'
+import AdminSemestersPage from './pages/admin/AdminSemestersPage'
+import AdminSubjectsPage from './pages/admin/AdminSubjectsPage'
+import AdminUnitsPage from './pages/admin/AdminUnitsPage'
+import AdminTopicsPage from './pages/admin/AdminTopicsPage'
 
 import {
   useAuth,
@@ -307,6 +311,42 @@ function App() {
         element={
           <AdminRoute>
             <AdminPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/semestres"
+        element={
+          <AdminRoute>
+            <AdminSemestersPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/materias"
+        element={
+          <AdminRoute>
+            <AdminSubjectsPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/unidades"
+        element={
+          <AdminRoute>
+            <AdminUnitsPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/temas"
+        element={
+          <AdminRoute>
+            <AdminTopicsPage />
           </AdminRoute>
         }
       />
