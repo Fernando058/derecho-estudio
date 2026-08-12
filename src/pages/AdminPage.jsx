@@ -62,10 +62,15 @@ const modules = [
     description: 'Administrar bibliografía y lecturas recomendadas por tema.',
     icon: BookMarked,
   },
+  {
+    to: '/admin/preguntas',
+    title: 'Preguntas',
+    description: 'Banco de preguntas, respuestas protegidas, feedback e importación masiva.',
+    icon: FileQuestion,
+  },
 ]
 
 const futureModules = [
-  { title: 'Preguntas', description: 'Banco de preguntas, importación y simuladores.', icon: FileQuestion },
   { title: 'Usuarios', description: 'Estudiantes, administradores y permisos.', icon: Users },
 ]
 
@@ -73,16 +78,16 @@ function AdminPage() {
   return (
     <AdminShell
       title="Resumen administrativo"
-      description="Gestiona la estructura, contenido jurídico, normativa, lecturas y documentos de Derecho Estudio."
+      description="Gestiona la estructura, contenido jurídico, normativa, lecturas, documentos y banco de preguntas de Derecho Estudio."
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.4</strong>
-          <span>Contenido jurídico y área de estudio</span>
+          <strong>v0.5</strong>
+          <span>Banco de preguntas e importación masiva</span>
         </article>
         <article className="admin-stat-card">
-          <strong>8</strong>
-          <span>Módulos CRUD disponibles</span>
+          <strong>9</strong>
+          <span>Módulos administrativos disponibles</span>
         </article>
         <article className="admin-stat-card">
           <strong>20</strong>
@@ -114,7 +119,7 @@ function AdminPage() {
         <div className="admin-card-heading">
           <div>
             <h2>Próximos módulos</h2>
-            <p>La siguiente fase habilitará el banco de preguntas y el motor de evaluación.</p>
+            <p>La siguiente fase habilitará el motor de simuladores y la corrección segura de intentos.</p>
           </div>
         </div>
 

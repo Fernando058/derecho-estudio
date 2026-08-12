@@ -147,6 +147,7 @@ function UnitStudyPage() {
     legalArticles,
     readings,
     documents,
+    readyQuestionCount,
   } = data
 
   return (
@@ -375,12 +376,12 @@ function UnitStudyPage() {
           <p className="eyebrow">Simulador de unidad</p>
           <h2>30 preguntas exclusivamente de la Unidad {unit.unit_number}</h2>
           <p>
-            La configuración ya existe en Supabase. El motor de evaluación y feedback
-            se habilitará en la siguiente versión.
+            Banco disponible: {readyQuestionCount}/30 preguntas activas y verificadas.
+            El motor de intentos y corrección se habilitará en la siguiente versión.
           </p>
         </div>
 
-        <span className="status-badge"><FileQuestion size={16} /> 30 preguntas</span>
+        <span className="status-badge"><FileQuestion size={16} /> {readyQuestionCount}/30 listas</span>
       </section>
     </main>
   )

@@ -37,6 +37,16 @@ function SubjectPage() {
     return map
   }, [data])
 
+  const questionCountByUnit = useMemo(() => {
+    const map = new Map()
+
+    for (const question of data?.readyQuestions ?? []) {
+      map.set(question.unit_id, (map.get(question.unit_id) || 0) + 1)
+    }
+
+    return map
+  }, [data])
+
   if (loading) {
     return (
       <main className="page">
@@ -91,7 +101,7 @@ function SubjectPage() {
 
             <div className="unit-study-meta">
               <span><FileText size={16} /> {documentCountByUnit.get(unit.id) || 0} documento(s)</span>
-              <span><FileQuestion size={16} /> 30 preguntas</span>
+              <span><FileQuestion size={16} /> {questionCountByUnit.get(unit.id) || 0}/30 listas</span>
             </div>
 
             <Link
@@ -119,7 +129,7 @@ function SubjectPage() {
           <h2>100 preguntas de las 4 unidades</h2>
           <p>
             La distribución inicial queda preparada en 25 preguntas por unidad.
-            El motor de cuestionarios se habilitará en la siguiente fase.
+            El banco ya puede cargarse y verificarse. El motor de intentos se habilitará en la siguiente fase.
           </p>
         </div>
         <span className="status-badge"><FileQuestion size={16} /> Próxima versión</span>

@@ -1,66 +1,48 @@
 # Derecho Estudio
 
-Plataforma académica de apoyo para estudiantes de Derecho.
+Plataforma web de apoyo académico para estudiantes de Derecho.
 
-## Versión actual
+## Stack
+- React 19
+- Vite 8
+- Supabase / PostgreSQL / Auth / RLS
+- GitHub + GitHub Pages
+- Google Drive para compendios PDF
 
-**v0.4.0 — Contenido jurídico y área de estudio**
+## Estado actual — v0.5
+- Autenticación y roles.
+- Panel del estudiante.
+- Administración académica.
+- Semestres, materias, 20 unidades y temas/subtemas.
+- Contenido académico.
+- Normativa y artículos.
+- Lecturas recomendadas.
+- Documentos / Google Drive / visor PDF.
+- Banco administrativo de preguntas.
+- Opciones A/B/C/D y respuesta correcta protegida.
+- Feedback individual por alternativa.
+- Importación masiva CSV/XLSX/XLS.
+- Configuración de simuladores: 30 preguntas por unidad y 100 por materia.
 
-Funciones disponibles:
-
-- React + Vite con carga diferida de rutas
-- Supabase PostgreSQL + Auth + RLS
-- GitHub Pages
-- Registro, inicio y cierre de sesión
-- Roles `student`, `admin` y `superadmin`
-- Dashboard del estudiante
-- CRUD administrativo de semestres, materias, unidades, temas y subtemas
-- CRUD de documentos/compendios mediante enlaces de Google Drive
-- Biblioteca y visor PDF integrado
-- CRUD de bloques de contenido académico
-- CRUD de fuentes legales y artículos
-- Relación de artículos con temas
-- CRUD de lecturas recomendadas y relación con temas
-- Página de estudio por materia
-- Página de estudio por unidad
-- 20 unidades iniciales de cuarto semestre
-- Configuración base de simuladores: 30 preguntas por unidad y 100 por materia
+## Regla de evaluación
+Cada unidad dispone de un simulador de 30 preguntas exclusivamente de esa unidad. Cada materia dispone de un simulador final de 100 preguntas que integra sus cuatro unidades.
 
 ## Desarrollo local
-
 ```powershell
 npm install
 npm run dev
 ```
 
-## Validación
-
+## Verificación
 ```powershell
 npm run build
 npm run lint
 ```
 
-## Variables de entorno
-
-Copia `.env.example` a `.env.local` y completa:
-
-```env
-VITE_SUPABASE_URL=
-VITE_SUPABASE_PUBLISHABLE_KEY=
-```
-
-`.env.local` no debe subirse al repositorio.
-
 ## Migraciones
-
-Después de aplicar una versión que incluya migraciones:
-
 ```powershell
 npx supabase migration list
 npx supabase db push
-npx supabase migration list
 ```
 
-## Próxima versión
-
-La v0.5 incorporará el banco de preguntas, importación masiva y la base del motor de simuladores.
+Consulta `ACTUALIZACION_v0.5.md` para las instrucciones de esta versión.

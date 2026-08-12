@@ -2,6 +2,7 @@ import {
   BookMarked,
   BookOpen,
   FilePenLine,
+  FileQuestion,
   FileText,
   GraduationCap,
   Home,
@@ -23,6 +24,7 @@ const navItems = [
   { to: '/admin/contenido', label: 'Contenido', icon: FilePenLine },
   { to: '/admin/normativa', label: 'Normativa', icon: Scale },
   { to: '/admin/lecturas', label: 'Lecturas', icon: BookMarked },
+  { to: '/admin/preguntas', label: 'Preguntas', icon: FileQuestion },
 ]
 
 function AdminShell({ title, description, children, actions }) {

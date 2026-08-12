@@ -83,18 +83,28 @@ export function AuthProvider({ children }) {
   )
 
   useEffect(() => {
+    const pendingTimers = new Set()
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(
       (_event, nextSession) => {
         setLoading(true)
 
-        void hydrateSession(nextSession)
+        // Supabase recomienda diferir las llamadas async realizadas como
+        // reacción a onAuthStateChange para evitar bloqueos del cliente.
+        const timerId = window.setTimeout(() => {
+          pendingTimers.delete(timerId)
+          void hydrateSession(nextSession)
+        }, 0)
+
+        pendingTimers.add(timerId)
       },
     )
 
     return () => {
       subscription.unsubscribe()
+      pendingTimers.forEach((timerId) => window.clearTimeout(timerId))
     }
   }, [hydrateSession])
 

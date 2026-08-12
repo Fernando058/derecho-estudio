@@ -1,0 +1,2 @@
+﻿materia_codigo,unidad,tema,pregunta,tipo,dificultad,opcion_a,opcion_b,opcion_c,opcion_d,correcta,explicacion_correcta,feedback_a,feedback_b,feedback_c,feedback_d,fuente,norma,articulo,verificada,activa
+PEN1,1,Principio de legalidad,Ejemplo de pregunta conceptual,multiple_choice,intermediate,Alternativa A,Alternativa B,Alternativa C,Alternativa D,B,Explicación general de por qué B es correcta,Explicación de por qué A es incorrecta,Explicación de por qué B es correcta,Explicación de por qué C es incorrecta,Explicación de por qué D es incorrecta,Compendio Unidad 1,COIP,5,SI,SI

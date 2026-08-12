@@ -45,6 +45,8 @@ const AdminDocumentsPage = lazy(() => import('./pages/admin/AdminDocumentsPage')
 const AdminContentPage = lazy(() => import('./pages/admin/AdminContentPage'))
 const AdminLegalPage = lazy(() => import('./pages/admin/AdminLegalPage'))
 const AdminReadingsPage = lazy(() => import('./pages/admin/AdminReadingsPage'))
+const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
+const AdminQuestionImportPage = lazy(() => import('./pages/admin/AdminQuestionImportPage'))
 
 function RouteLoader() {
   return (
@@ -355,6 +357,24 @@ function App() {
           element={
             <AdminRoute>
               <AdminReadingsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/preguntas"
+          element={
+            <AdminRoute>
+              <AdminQuestionsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/preguntas/importar"
+          element={
+            <AdminRoute>
+              <AdminQuestionImportPage />
             </AdminRoute>
           }
         />

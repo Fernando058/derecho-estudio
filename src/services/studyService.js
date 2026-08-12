@@ -24,18 +24,34 @@ export async function getSubjectStudyData(subjectSlug) {
 
   fail(unitsError, 'No fue posible cargar las unidades.')
 
-  const { data: documents, error: documentsError } = await supabase
-    .from('documents')
-    .select('id,unit_id,document_type')
-    .eq('subject_id', subject.id)
-    .eq('is_published', true)
+  const unitIds = (units ?? []).map((unit) => unit.id)
 
-  fail(documentsError, 'No fue posible cargar los documentos de la materia.')
+  const questionQuery = unitIds.length
+    ? supabase
+        .from('questions')
+        .select('id,unit_id')
+        .in('unit_id', unitIds)
+        .eq('is_active', true)
+        .eq('is_verified', true)
+    : Promise.resolve({ data: [], error: null })
+
+  const [documentsResult, questionsResult] = await Promise.all([
+    supabase
+      .from('documents')
+      .select('id,unit_id,document_type')
+      .eq('subject_id', subject.id)
+      .eq('is_published', true),
+    questionQuery,
+  ])
+
+  fail(documentsResult.error, 'No fue posible cargar los documentos de la materia.')
+  fail(questionsResult.error, 'No fue posible consultar el banco de preguntas.')
 
   return {
     subject,
     units: units ?? [],
-    documents: documents ?? [],
+    documents: documentsResult.data ?? [],
+    readyQuestions: questionsResult.data ?? [],
   }
 }
 
@@ -135,6 +151,15 @@ export async function getUnitStudyData(subjectSlug, unitNumber) {
     readings = (readingResult.data ?? []).filter((item) => item.reading)
   }
 
+  const { count: readyQuestionCount, error: questionCountError } = await supabase
+    .from('questions')
+    .select('id', { count: 'exact', head: true })
+    .eq('unit_id', unit.id)
+    .eq('is_active', true)
+    .eq('is_verified', true)
+
+  fail(questionCountError, 'No fue posible consultar la preparación del simulador.')
+
   return {
     subject: subjectResult.subject,
     unit,
@@ -143,5 +168,6 @@ export async function getUnitStudyData(subjectSlug, unitNumber) {
     documents: documentsResult.data ?? [],
     legalArticles,
     readings,
+    readyQuestionCount: readyQuestionCount ?? 0,
   }
 }
