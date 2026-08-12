@@ -33,6 +33,9 @@ import AdminSemestersPage from './pages/admin/AdminSemestersPage'
 import AdminSubjectsPage from './pages/admin/AdminSubjectsPage'
 import AdminUnitsPage from './pages/admin/AdminUnitsPage'
 import AdminTopicsPage from './pages/admin/AdminTopicsPage'
+import AdminDocumentsPage from './pages/admin/AdminDocumentsPage'
+import DocumentsPage from './pages/DocumentsPage'
+import DocumentViewerPage from './pages/DocumentViewerPage'
 
 import {
   useAuth,
@@ -307,6 +310,24 @@ function App() {
       />
 
       <Route
+        path="/documentos"
+        element={
+          <ProtectedRoute>
+            <DocumentsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/documentos/:documentId"
+        element={
+          <ProtectedRoute>
+            <DocumentViewerPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/admin"
         element={
           <AdminRoute>
@@ -347,6 +368,15 @@ function App() {
         element={
           <AdminRoute>
             <AdminTopicsPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/documentos"
+        element={
+          <AdminRoute>
+            <AdminDocumentsPage />
           </AdminRoute>
         }
       />

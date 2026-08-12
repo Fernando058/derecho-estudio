@@ -10,6 +10,7 @@ import {
 
 import {
   BookOpen,
+  FileText,
   GraduationCap,
   LogOut,
   ShieldCheck,
@@ -178,6 +179,18 @@ function DashboardPage() {
             {' '}
             disponibles
           </p>
+        </article>
+
+        <article className="dashboard-card">
+          <FileText size={30} />
+
+          <h2>Documentos</h2>
+
+          <p>Compendios y lecturas disponibles.</p>
+
+          <Link className="text-link" to="/documentos">
+            Abrir biblioteca →
+          </Link>
         </article>
       </section>
 

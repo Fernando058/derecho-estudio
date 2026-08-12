@@ -35,10 +35,15 @@ const modules = [
     description: 'Organizar la estructura temática interna de cada unidad.',
     icon: ListTree,
   },
+  {
+    to: '/admin/documentos',
+    title: 'Documentos',
+    description: 'Gestionar compendios y recursos enlazados desde Google Drive.',
+    icon: FileText,
+  },
 ]
 
 const futureModules = [
-  { title: 'Documentos', description: 'Compendios y enlaces de Google Drive.', icon: FileText },
   { title: 'Preguntas', description: 'Banco de preguntas y simuladores.', icon: FileQuestion },
   { title: 'Usuarios', description: 'Estudiantes, administradores y permisos.', icon: Users },
 ]
@@ -51,12 +56,12 @@ function AdminPage() {
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.2</strong>
-          <span>Módulo administrativo académico</span>
+          <strong>v0.3</strong>
+          <span>Administración académica + documentos</span>
         </article>
         <article className="admin-stat-card">
-          <strong>4</strong>
-          <span>Niveles CRUD disponibles</span>
+          <strong>5</strong>
+          <span>Módulos CRUD disponibles</span>
         </article>
         <article className="admin-stat-card">
           <strong>5</strong>

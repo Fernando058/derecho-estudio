@@ -5,6 +5,8 @@ function PdfViewer({
   url,
   title = 'Documento PDF',
   description = '',
+  startPage = null,
+  endPage = null,
 }) {
   if (!url) {
     return (
@@ -20,16 +22,17 @@ function PdfViewer({
   }
 
   const embedUrl = getPdfEmbedUrl(url)
+  const pageLabel = startPage
+    ? `Lectura recomendada: páginas ${startPage}${endPage ? `–${endPage}` : ''}`
+    : ''
 
   return (
     <section className="pdf-viewer">
       <header className="pdf-viewer-header">
         <div>
           <h2>{title}</h2>
-
-          {description && (
-            <p>{description}</p>
-          )}
+          {description && <p>{description}</p>}
+          {pageLabel && <small className="pdf-page-range">{pageLabel}</small>}
         </div>
 
         <a

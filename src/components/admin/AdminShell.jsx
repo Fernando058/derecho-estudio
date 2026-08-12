@@ -16,7 +16,7 @@ const navItems = [
   { to: '/admin/materias', label: 'Materias', icon: BookOpen },
   { to: '/admin/unidades', label: 'Unidades', icon: GraduationCap },
   { to: '/admin/temas', label: 'Temas', icon: ListTree },
-  { to: '/admin/documentos', label: 'Documentos', icon: FileText, disabled: true },
+  { to: '/admin/documentos', label: 'Documentos', icon: FileText },
 ]
 
 function AdminShell({ title, description, children, actions }) {
