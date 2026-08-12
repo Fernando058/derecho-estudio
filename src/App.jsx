@@ -1,20 +1,46 @@
-import { useState } from 'react'
+import {
+  useState,
+} from 'react'
+
 import {
   Link,
+  Navigate,
   Route,
   Routes,
 } from 'react-router-dom'
+
 import {
   BookOpen,
   Database,
   FileText,
   GraduationCap,
+  LayoutDashboard,
+  LogIn,
+  UserPlus,
 } from 'lucide-react'
 
 import PdfViewer from './components/pdf/PdfViewer'
+
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import AdminRoute from './components/auth/AdminRoute'
+
 import SupabaseTestPage from './pages/SupabaseTestPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import DashboardPage from './pages/DashboardPage'
+import AdminPage from './pages/AdminPage'
+
+import {
+  useAuth,
+} from './context/AuthContext'
 
 function HomePage() {
+  const {
+    session,
+    profile,
+    loading,
+  } = useAuth()
+
   return (
     <main className="page">
       <section className="hero">
@@ -24,22 +50,65 @@ function HomePage() {
           Plataforma académica
         </p>
 
-        <h1>Derecho Estudio</h1>
+        <h1>
+          Derecho Estudio
+        </h1>
 
         <p className="hero-description">
-          Plataforma de apoyo académico para el estudio
-          estructurado de la carrera de Derecho.
+          Plataforma de apoyo académico
+          para el estudio estructurado
+          de la carrera de Derecho.
         </p>
 
         <div className="hero-actions">
-          <Link
-            to="/conexion"
-            className="primary-button"
-          >
-            <Database size={18} />
-            Probar Supabase
-          </Link>
+          {!loading &&
+            !session && (
+              <>
+                <Link
+                  to="/login"
+                  className="primary-button"
+                >
+                  <LogIn size={18} />
+                  Iniciar sesión
+                </Link>
+
+                <Link
+                  to="/registro"
+                  className="button-secondary"
+                >
+                  <UserPlus size={18} />
+                  Registrarme
+                </Link>
+              </>
+            )}
+
+          {!loading &&
+            session && (
+              <Link
+                to="/dashboard"
+                className="primary-button"
+              >
+                <LayoutDashboard size={18} />
+
+                Ir a mi dashboard
+              </Link>
+            )}
         </div>
+
+        {session &&
+          profile && (
+            <p
+              style={{
+                marginTop: '20px',
+              }}
+            >
+              Sesión activa:
+              {' '}
+              <strong>
+                {profile.full_name}
+              </strong>
+            </p>
+          )}
       </section>
 
       <section className="feature-grid">
@@ -49,8 +118,9 @@ function HomePage() {
           <h2>Materias</h2>
 
           <p>
-            Organización por semestre, materia,
-            unidad, tema y subtema.
+            Organización por semestre,
+            materia, unidad, tema
+            y subtema.
           </p>
         </article>
 
@@ -60,14 +130,19 @@ function HomePage() {
           <h2>Compendios</h2>
 
           <p>
-            Documentos externos mediante enlaces
-            administrables de Google Drive.
+            Documentos externos mediante
+            enlaces administrables
+            de Google Drive.
           </p>
 
-          <div style={{ marginTop: '20px' }}>
+          <div
+            style={{
+              marginTop: '20px',
+            }}
+          >
             <Link
               to="/visor"
-              className="primary-button"
+              className="button-secondary"
             >
               <FileText size={18} />
               Probar visor PDF
@@ -81,38 +156,70 @@ function HomePage() {
           <h2>Evaluación</h2>
 
           <p>
-            Simuladores, retroalimentación y seguimiento
-            individual del aprendizaje.
+            Simuladores,
+            retroalimentación
+            y seguimiento individual.
           </p>
         </article>
+      </section>
+
+      <section
+        className="feature-card"
+        style={{
+          marginTop: '28px',
+        }}
+      >
+        <Database size={30} />
+
+        <h2>
+          Estado técnico
+        </h2>
+
+        <Link
+          to="/conexion"
+          className="text-link"
+        >
+          Probar conexión Supabase
+        </Link>
       </section>
     </main>
   )
 }
 
 function PdfTestPage() {
-  const [inputUrl, setInputUrl] = useState('')
-  const [documentUrl, setDocumentUrl] =
+  const [inputUrl, setInputUrl] =
     useState('')
+
+  const [
+    documentUrl,
+    setDocumentUrl,
+  ] = useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    setDocumentUrl(inputUrl.trim())
+    setDocumentUrl(
+      inputUrl.trim(),
+    )
   }
 
   return (
     <main className="page">
       <section className="viewer-test-header">
-        <Link to="/" className="back-link">
+        <Link
+          to="/"
+          className="back-link"
+        >
           ← Inicio
         </Link>
 
-        <h1>Prueba del visor PDF</h1>
+        <h1>
+          Prueba del visor PDF
+        </h1>
 
         <p>
-          Pega un enlace público de Google Drive
-          para verificar el funcionamiento del visor.
+          Pega un enlace público
+          de Google Drive.
         </p>
 
         <form
@@ -129,7 +236,9 @@ function PdfTestPage() {
               type="url"
               value={inputUrl}
               onChange={(event) =>
-                setInputUrl(event.target.value)
+                setInputUrl(
+                  event.target.value,
+                )
               }
               placeholder="Pega aquí el enlace del PDF..."
               required
@@ -165,6 +274,16 @@ function App() {
       />
 
       <Route
+        path="/login"
+        element={<LoginPage />}
+      />
+
+      <Route
+        path="/registro"
+        element={<RegisterPage />}
+      />
+
+      <Route
         path="/visor"
         element={<PdfTestPage />}
       />
@@ -172,6 +291,34 @@ function App() {
       <Route
         path="/conexion"
         element={<SupabaseTestPage />}
+      />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminPage />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="*"
+        element={
+          <Navigate
+            to="/"
+            replace
+          />
+        }
       />
     </Routes>
   )
