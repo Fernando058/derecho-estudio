@@ -1,0 +1,272 @@
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #172033;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      180deg,
+      #f7f9fc 0%,
+      #eef2f7 100%
+    );
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.hero {
+  padding: 72px 32px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e4e8ef;
+  border-radius: 24px;
+  box-shadow:
+    0 12px 40px rgba(17, 24, 39, 0.06);
+}
+
+.hero svg {
+  margin-bottom: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(40px, 7vw, 68px);
+  line-height: 1.05;
+}
+
+.hero-description {
+  width: min(680px, 100%);
+  margin: 24px auto;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #536078;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.primary-button,
+.pdf-external-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 46px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #172033;
+  color: #ffffff;
+
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-button:hover,
+.pdf-external-button:hover {
+  opacity: 0.9;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.feature-card {
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e4e8ef;
+  border-radius: 18px;
+}
+
+.feature-card h2 {
+  margin: 18px 0 8px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.65;
+}
+
+.viewer-test-header {
+  margin-bottom: 26px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e4e8ef;
+  border-radius: 18px;
+}
+
+.viewer-test-header h1 {
+  margin-bottom: 8px;
+}
+
+.viewer-test-header p {
+  color: #667085;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pdf-test-form {
+  margin-top: 24px;
+}
+
+.pdf-test-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.pdf-test-input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.pdf-test-input-row input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #cfd6e2;
+  border-radius: 10px;
+  outline: none;
+}
+
+.pdf-test-input-row input:focus {
+  border-color: #172033;
+}
+
+.pdf-viewer {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e4e8ef;
+  border-radius: 18px;
+}
+
+.pdf-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 22px;
+  border-bottom: 1px solid #e4e8ef;
+}
+
+.pdf-viewer-header h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.pdf-viewer-header p {
+  margin: 0;
+  color: #667085;
+}
+
+.pdf-frame-container {
+  width: 100%;
+  height: min(78vh, 900px);
+  min-height: 600px;
+  background: #e9edf3;
+}
+
+.pdf-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.pdf-empty {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px dashed #cfd6e2;
+  border-radius: 16px;
+}
+
+.pdf-empty h3 {
+  margin: 0 0 4px;
+}
+
+.pdf-empty p {
+  margin: 0;
+  color: #667085;
+}
+
+@media (max-width: 800px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-test-input-row {
+    flex-direction: column;
+  }
+
+  .pdf-viewer-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pdf-frame-container {
+    min-height: 500px;
+  }
+}
