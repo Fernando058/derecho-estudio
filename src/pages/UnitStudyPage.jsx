@@ -3,7 +3,6 @@ import {
   BookMarked,
   BookOpenCheck,
   ExternalLink,
-  FileQuestion,
   FileText,
   Gavel,
   KeyRound,
@@ -12,6 +11,7 @@ import {
   Scale,
 } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import QuizLaunchActions from '../components/quiz/QuizLaunchActions'
 import { getUnitStudyData } from '../services/studyService'
 
 const typeLabels = {
@@ -148,6 +148,7 @@ function UnitStudyPage() {
     readings,
     documents,
     readyQuestionCount,
+    quizConfig,
   } = data
 
   return (
@@ -372,16 +373,21 @@ function UnitStudyPage() {
       </section>
 
       <section className="study-unit-quiz">
-        <div>
+        <div className="study-final-exam-copy">
           <p className="eyebrow">Simulador de unidad</p>
           <h2>30 preguntas exclusivamente de la Unidad {unit.unit_number}</h2>
           <p>
-            Banco disponible: {readyQuestionCount}/30 preguntas activas y verificadas.
-            El motor de intentos y corrección se habilitará en la siguiente versión.
+            El servidor selecciona 30 preguntas activas y verificadas de esta unidad.
+            En modo examen la retroalimentación se muestra al finalizar; en modo práctica,
+            después de cada respuesta.
           </p>
         </div>
 
-        <span className="status-badge"><FileQuestion size={16} /> {readyQuestionCount}/30 listas</span>
+        <QuizLaunchActions
+          quizConfig={quizConfig}
+          ready={readyQuestionCount >= (quizConfig?.question_count ?? 30)}
+          readyLabel={`${readyQuestionCount}/${quizConfig?.question_count ?? 30} preguntas listas`}
+        />
       </section>
     </main>
   )

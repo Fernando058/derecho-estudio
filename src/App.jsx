@@ -36,6 +36,9 @@ const DocumentsPage = lazy(() => import('./pages/DocumentsPage'))
 const DocumentViewerPage = lazy(() => import('./pages/DocumentViewerPage'))
 const SubjectPage = lazy(() => import('./pages/SubjectPage'))
 const UnitStudyPage = lazy(() => import('./pages/UnitStudyPage'))
+const QuizAttemptPage = lazy(() => import('./pages/QuizAttemptPage'))
+const QuizResultPage = lazy(() => import('./pages/QuizResultPage'))
+const AttemptsPage = lazy(() => import('./pages/AttemptsPage'))
 
 const AdminSemestersPage = lazy(() => import('./pages/admin/AdminSemestersPage'))
 const AdminSubjectsPage = lazy(() => import('./pages/admin/AdminSubjectsPage'))
@@ -258,6 +261,33 @@ function App() {
           element={
             <ProtectedRoute>
               <UnitStudyPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/simuladores/intentos/:attemptId"
+          element={
+            <ProtectedRoute>
+              <QuizAttemptPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/simuladores/intentos/:attemptId/resultados"
+          element={
+            <ProtectedRoute>
+              <QuizResultPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/intentos"
+          element={
+            <ProtectedRoute>
+              <AttemptsPage />
             </ProtectedRoute>
           }
         />

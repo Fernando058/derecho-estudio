@@ -35,23 +35,58 @@ export async function getSubjectStudyData(subjectSlug) {
         .eq('is_verified', true)
     : Promise.resolve({ data: [], error: null })
 
-  const [documentsResult, questionsResult] = await Promise.all([
+  const [documentsResult, questionsResult, configsResult] = await Promise.all([
     supabase
       .from('documents')
       .select('id,unit_id,document_type')
       .eq('subject_id', subject.id)
       .eq('is_published', true),
     questionQuery,
+    supabase
+      .from('quiz_configs')
+      .select(`
+        id,
+        subject_id,
+        unit_id,
+        quiz_type,
+        question_count,
+        time_limit_minutes,
+        randomize_questions,
+        randomize_options,
+        is_active
+      `)
+      .eq('subject_id', subject.id)
+      .eq('is_active', true),
   ])
 
   fail(documentsResult.error, 'No fue posible cargar los documentos de la materia.')
   fail(questionsResult.error, 'No fue posible consultar el banco de preguntas.')
+  fail(configsResult.error, 'No fue posible cargar la configuración de simuladores.')
+
+  const configs = configsResult.data ?? []
+  const subjectQuizConfig = configs.find((item) => item.quiz_type === 'subject_100') ?? null
+  const unitQuizConfigs = configs.filter((item) => item.quiz_type === 'unit_30')
+
+  let subjectQuizDistribution = []
+
+  if (subjectQuizConfig) {
+    const { data: distributionData, error: distributionError } = await supabase
+      .from('quiz_unit_distribution')
+      .select('unit_id,question_count')
+      .eq('quiz_config_id', subjectQuizConfig.id)
+
+    fail(distributionError, 'No fue posible cargar la distribución del simulador final.')
+    subjectQuizDistribution = distributionData ?? []
+  }
 
   return {
     subject,
     units: units ?? [],
     documents: documentsResult.data ?? [],
     readyQuestions: questionsResult.data ?? [],
+    subjectQuizConfig,
+    unitQuizConfigs,
+    subjectQuizDistribution,
   }
 }
 
@@ -151,14 +186,13 @@ export async function getUnitStudyData(subjectSlug, unitNumber) {
     readings = (readingResult.data ?? []).filter((item) => item.reading)
   }
 
-  const { count: readyQuestionCount, error: questionCountError } = await supabase
-    .from('questions')
-    .select('id', { count: 'exact', head: true })
-    .eq('unit_id', unit.id)
-    .eq('is_active', true)
-    .eq('is_verified', true)
+  const readyQuestionCount = subjectResult.readyQuestions.filter(
+    (question) => question.unit_id === unit.id,
+  ).length
 
-  fail(questionCountError, 'No fue posible consultar la preparación del simulador.')
+  const quizConfig = subjectResult.unitQuizConfigs.find(
+    (config) => config.unit_id === unit.id,
+  ) ?? null
 
   return {
     subject: subjectResult.subject,
@@ -168,6 +202,7 @@ export async function getUnitStudyData(subjectSlug, unitNumber) {
     documents: documentsResult.data ?? [],
     legalArticles,
     readings,
-    readyQuestionCount: readyQuestionCount ?? 0,
+    readyQuestionCount,
+    quizConfig,
   }
 }

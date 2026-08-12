@@ -10,6 +10,7 @@ import {
 
 import {
   BookOpen,
+  FileQuestion,
   FileText,
   GraduationCap,
   LogOut,
@@ -190,6 +191,18 @@ function DashboardPage() {
 
           <Link className="text-link" to="/documentos">
             Abrir biblioteca →
+          </Link>
+        </article>
+
+        <article className="dashboard-card">
+          <FileQuestion size={30} />
+
+          <h2>Mis intentos</h2>
+
+          <p>Resultados, simuladores en curso y evolución.</p>
+
+          <Link className="text-link" to="/intentos">
+            Ver historial →
           </Link>
         </article>
       </section>

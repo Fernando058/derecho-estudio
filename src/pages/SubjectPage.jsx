@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BookOpen, FileQuestion, FileText, GraduationCap, LoaderCircle } from 'lucide-react'
+import {
+  BookOpen,
+  FileQuestion,
+  FileText,
+  GraduationCap,
+  LoaderCircle,
+} from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import QuizLaunchActions from '../components/quiz/QuizLaunchActions'
 import { getSubjectStudyData } from '../services/studyService'
 
 function SubjectPage() {
@@ -70,7 +77,25 @@ function SubjectPage() {
     )
   }
 
-  const { subject, units } = data
+  const {
+    subject,
+    units,
+    subjectQuizConfig,
+    subjectQuizDistribution,
+  } = data
+
+  const finalRequired = subjectQuizConfig?.question_count ?? 100
+  const finalReadyCount = subjectQuizDistribution.reduce(
+    (sum, row) => sum + Math.min(questionCountByUnit.get(row.unit_id) || 0, row.question_count),
+    0,
+  )
+  const finalReady = Boolean(
+    subjectQuizConfig &&
+      subjectQuizDistribution.length > 0 &&
+      subjectQuizDistribution.every(
+        (row) => (questionCountByUnit.get(row.unit_id) || 0) >= row.question_count,
+      ),
+  )
 
   return (
     <main className="page study-page">
@@ -124,15 +149,20 @@ function SubjectPage() {
       )}
 
       <section className="study-final-exam">
-        <div>
+        <div className="study-final-exam-copy">
           <p className="eyebrow">Simulador final</p>
-          <h2>100 preguntas de las 4 unidades</h2>
+          <h2>{finalRequired} preguntas de las 4 unidades</h2>
           <p>
-            La distribución inicial queda preparada en 25 preguntas por unidad.
-            El banco ya puede cargarse y verificarse. El motor de intentos se habilitará en la siguiente fase.
+            La distribución se toma directamente de Supabase. El intento se construye
+            en el servidor y las claves correctas permanecen protegidas hasta finalizar.
           </p>
         </div>
-        <span className="status-badge"><FileQuestion size={16} /> Próxima versión</span>
+
+        <QuizLaunchActions
+          quizConfig={subjectQuizConfig}
+          ready={finalReady}
+          readyLabel={`${finalReadyCount}/${finalRequired} disponibles según distribución`}
+        />
       </section>
     </main>
   )
