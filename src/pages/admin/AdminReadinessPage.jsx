@@ -25,9 +25,9 @@ function statusClass(value) {
     : 'readiness-status is-pending'
 }
 
-function downloadJson(data) {
+function downloadJson(data, levelNumber) {
   const payload = JSON.stringify(
-    buildReadinessExport(data),
+    buildReadinessExport(data, levelNumber),
     null,
     2,
   )
@@ -41,7 +41,7 @@ function downloadJson(data) {
   const anchor = document.createElement('a')
 
   anchor.href = url
-  anchor.download = 'derecho-estudio-v1-readiness.json'
+  anchor.download = `derecho-estudio-semestre-${levelNumber}-readiness.json`
   document.body.appendChild(anchor)
   anchor.click()
   anchor.remove()
@@ -53,13 +53,21 @@ function AdminReadinessPage() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [levelNumber, setLevelNumber] = useState(4)
+
+  const semesterLabel =
+    levelNumber === 3
+      ? 'Tercer semestre'
+      : levelNumber === 5
+        ? 'Quinto semestre'
+        : 'Cuarto semestre'
 
   const loadData = useCallback(async () => {
     setLoading(true)
     setError('')
 
     try {
-      const nextData = await loadReleaseReadiness(4)
+      const nextData = await loadReleaseReadiness(levelNumber)
       setData(nextData)
     } catch (loadError) {
       console.error(loadError)
@@ -70,7 +78,7 @@ function AdminReadinessPage() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [levelNumber])
 
   useEffect(() => {
     void loadData()
@@ -84,7 +92,7 @@ function AdminReadinessPage() {
 
     if (Number(summary.subject_count || 0) !== 5) {
       result.push(
-        `El cuarto semestre debe contener 5 materias; actualmente hay ${summary.subject_count || 0}.`,
+        `${semesterLabel} debe contener 5 materias en el catálogo actual; actualmente hay ${summary.subject_count || 0}.`,
       )
     }
 
@@ -123,13 +131,13 @@ function AdminReadinessPage() {
     }
 
     return result
-  }, [data])
+  }, [data, semesterLabel])
 
   if (loading) {
     return (
       <AdminShell
         title="Validación v1.0"
-        description="Auditoría estructural y académica del cuarto semestre."
+        description={`Auditoría estructural y académica de ${semesterLabel.toLowerCase()}.`}
       >
         <AdminLoading />
       </AdminShell>
@@ -158,9 +166,20 @@ function AdminReadinessPage() {
   return (
     <AdminShell
       title="Validación v1.0"
-      description="Comprueba que la estructura, contenido y bancos de preguntas estén listos antes de publicar el cuarto semestre completo."
+      description={`Comprueba estructura, contenido y bancos de preguntas de ${semesterLabel.toLowerCase()}.`}
       actions={(
         <>
+          <label className="readiness-semester-select">
+            <span>Semestre</span>
+            <select
+              value={levelNumber}
+              onChange={(event) => setLevelNumber(Number(event.target.value))}
+            >
+              <option value={3}>Tercer semestre</option>
+              <option value={4}>Cuarto semestre</option>
+              <option value={5}>Quinto semestre</option>
+            </select>
+          </label>
           <button
             className="button-secondary"
             onClick={() => void loadData()}
@@ -173,7 +192,7 @@ function AdminReadinessPage() {
           <button
             className="button-secondary"
             disabled={!data}
-            onClick={() => downloadJson(data)}
+            onClick={() => downloadJson(data, levelNumber)}
             type="button"
           >
             <Download size={17} />
@@ -191,7 +210,7 @@ function AdminReadinessPage() {
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
           <strong>{summary.subject_count ?? 0}/5</strong>
-          <span>Materias de cuarto semestre</span>
+          <span>Materias de {semesterLabel.toLowerCase()}</span>
         </article>
 
         <article className="admin-stat-card">
@@ -235,7 +254,7 @@ function AdminReadinessPage() {
           <p>
             {datasetLoaded
               ? `${summary.dataset_version_count} versión(es) de dataset registradas.`
-              : 'Todavía no se ha registrado la carga SQL integral del cuarto semestre.'}
+              : 'Todavía no se ha registrado la carga SQL integral de los semestres 3, 4 y 5.'}
           </p>
         </article>
 
@@ -262,7 +281,7 @@ function AdminReadinessPage() {
 
           <p>
             {allReady
-              ? 'El cuarto semestre supera las comprobaciones automáticas.'
+              ? `${semesterLabel} supera las comprobaciones automáticas.`
               : 'Aún existen elementos académicos o de evaluación pendientes.'}
           </p>
         </article>
@@ -272,7 +291,7 @@ function AdminReadinessPage() {
         <div className="admin-card-heading">
           <div>
             <h2>Contenido registrado</h2>
-            <p>Conteos globales del cuarto semestre y recursos académicos compartidos.</p>
+            <p>Conteos del semestre seleccionado y recursos jurídicos registrados.</p>
           </div>
         </div>
 
@@ -386,7 +405,7 @@ function AdminReadinessPage() {
           <div>
             <h2>Pendientes detectados</h2>
             <p>
-              Esta lista será especialmente útil después de ejecutar el SQL integral del cuarto semestre.
+              Esta lista permite comprobar lo disponible y los faltantes reales del semestre seleccionado.
             </p>
           </div>
         </div>
@@ -416,7 +435,7 @@ function AdminReadinessPage() {
           <div>
             <h2>Versiones de dataset</h2>
             <p>
-              La carga SQL final registrará aquí su identificador, versión, base documental y checksum.
+              Las cargas integrales registran aquí identificador, versión, base documental y checksum.
             </p>
           </div>
         </div>
@@ -426,7 +445,7 @@ function AdminReadinessPage() {
             <ShieldCheck size={34} />
             <h3>Sin carga integral registrada</h3>
             <p>
-              Es normal antes de ejecutar el SQL académico completo de cuarto semestre.
+              Es normal mientras no se haya ejecutado una carga académica versionada.
             </p>
           </div>
         ) : (

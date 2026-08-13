@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 
@@ -21,8 +22,14 @@ import {
 } from 'lucide-react'
 
 import { supabase } from '../lib/supabase'
-
 import { useAuth } from '../hooks/useAuth'
+
+const STORAGE_KEY = 'derecho-estudio-semester-level'
+
+function getInitialLevel() {
+  const saved = Number(window.localStorage.getItem(STORAGE_KEY))
+  return [3, 4, 5].includes(saved) ? saved : 4
+}
 
 function DashboardPage() {
   const navigate = useNavigate()
@@ -33,75 +40,120 @@ function DashboardPage() {
     isAdmin,
   } = useAuth()
 
-  const [subjects, setSubjects] =
-    useState([])
+  const [semesters, setSemesters] = useState([])
+  const [subjects, setSubjects] = useState([])
+  const [selectedLevel, setSelectedLevel] = useState(getInitialLevel)
 
-  const [loadingSubjects, setLoadingSubjects] =
-    useState(true)
-
-  const [subjectError, setSubjectError] =
-    useState('')
+  const [loadingSubjects, setLoadingSubjects] = useState(true)
+  const [subjectError, setSubjectError] = useState('')
 
   useEffect(() => {
-    async function loadSubjects() {
+    async function loadAcademicCatalog() {
       setLoadingSubjects(true)
       setSubjectError('')
 
-      const { data, error } =
-        await supabase
+      const [
+        semesterResponse,
+        subjectResponse,
+      ] = await Promise.all([
+        supabase
+          .from('semesters')
+          .select('id,name,slug,level_number,sort_order')
+          .eq('is_published', true)
+          .order('sort_order', { ascending: true }),
+
+        supabase
           .from('subjects')
-          .select(
-            `
-              id,
-              name,
-              slug,
-              code,
-              credits,
-              sort_order
-            `,
-          )
-          .eq(
-            'is_published',
-            true,
-          )
-          .order(
-            'sort_order',
-            {
-              ascending: true,
-            },
-          )
+          .select(`
+            id,
+            semester_id,
+            name,
+            slug,
+            code,
+            credits,
+            sort_order
+          `)
+          .eq('is_published', true)
+          .order('sort_order', { ascending: true }),
+      ])
+
+      const error =
+        semesterResponse.error ||
+        subjectResponse.error
 
       if (error) {
         console.error(error)
-
         setSubjectError(
-          'No fue posible cargar las materias.',
+          'No fue posible cargar el catálogo académico.',
         )
       } else {
-        setSubjects(
-          data ?? [],
+        setSemesters(semesterResponse.data ?? [])
+        setSubjects(subjectResponse.data ?? [])
+
+        const levels = new Set(
+          (semesterResponse.data ?? []).map(
+            (semester) => Number(semester.level_number),
+          ),
         )
+
+        if (!levels.has(selectedLevel)) {
+          const preferred =
+            levels.has(4)
+              ? 4
+              : Number(semesterResponse.data?.[0]?.level_number)
+
+          if (preferred) {
+            setSelectedLevel(preferred)
+          }
+        }
       }
 
       setLoadingSubjects(false)
     }
 
-    void loadSubjects()
-  }, [])
+    void loadAcademicCatalog()
+  }, [selectedLevel])
+
+  const selectedSemester = useMemo(
+    () =>
+      semesters.find(
+        (semester) =>
+          Number(semester.level_number) === selectedLevel,
+      ) ?? null,
+    [selectedLevel, semesters],
+  )
+
+  const visibleSubjects = useMemo(
+    () => {
+      if (!selectedSemester) return []
+
+      return subjects.filter(
+        (subject) =>
+          subject.semester_id === selectedSemester.id,
+      )
+    },
+    [selectedSemester, subjects],
+  )
+
+  function handleSemesterChange(event) {
+    const level = Number(event.target.value)
+
+    setSelectedLevel(level)
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      String(level),
+    )
+  }
 
   async function handleLogout() {
-    const { error } =
-      await signOut()
+    const { error } = await signOut()
 
     if (error) {
       console.error(error)
       return
     }
 
-    navigate(
-      '/',
-      { replace: true },
-    )
+    navigate('/', { replace: true })
   }
 
   return (
@@ -114,13 +166,12 @@ function DashboardPage() {
 
           <h1>
             Hola,{' '}
-            {profile?.full_name ||
-              'Estudiante'}
+            {profile?.full_name || 'Estudiante'}
           </h1>
 
           <p>
-            Desde aquí controlaremos tu progreso
-            académico y los simuladores.
+            Selecciona el semestre para estudiar sus materias,
+            unidades, documentos y simuladores.
           </p>
         </div>
 
@@ -146,19 +197,45 @@ function DashboardPage() {
         </div>
       </section>
 
+      <section className="semester-selector-card">
+        <div>
+          <GraduationCap size={28} />
+          <div>
+            <span>Semestre activo</span>
+            <strong>
+              {selectedSemester?.name || 'Seleccionar semestre'}
+            </strong>
+          </div>
+        </div>
+
+        <label>
+          <span>Mostrar materias de</span>
+          <select
+            value={selectedLevel}
+            onChange={handleSemesterChange}
+            disabled={loadingSubjects}
+          >
+            {semesters.map((semester) => (
+              <option
+                key={semester.id}
+                value={semester.level_number}
+              >
+                {semester.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </section>
+
       <section className="dashboard-grid">
         <article className="dashboard-card">
           <User size={30} />
 
           <h2>Perfil</h2>
-
-          <p>
-            {profile?.email}
-          </p>
+          <p>{profile?.email}</p>
 
           <span className="status-badge">
-            {profile?.role ||
-              'student'}
+            {profile?.role || 'student'}
           </span>
 
           <div style={{ marginTop: '14px' }}>
@@ -172,19 +249,15 @@ function DashboardPage() {
           <GraduationCap size={30} />
 
           <h2>Semestre</h2>
-
-          <p>
-            Cuarto semestre
-          </p>
+          <p>{selectedSemester?.name || '—'}</p>
         </article>
 
         <article className="dashboard-card">
           <BookOpen size={30} />
 
           <h2>Materias</h2>
-
           <p>
-            {subjects.length}
+            {visibleSubjects.length}
             {' '}
             disponibles
           </p>
@@ -194,7 +267,6 @@ function DashboardPage() {
           <FileText size={30} />
 
           <h2>Documentos</h2>
-
           <p>Compendios y lecturas disponibles.</p>
 
           <Link className="text-link" to="/documentos">
@@ -206,7 +278,6 @@ function DashboardPage() {
           <FileQuestion size={30} />
 
           <h2>Mis intentos</h2>
-
           <p>Resultados, simuladores en curso y evolución.</p>
 
           <Link className="text-link" to="/intentos">
@@ -218,7 +289,6 @@ function DashboardPage() {
           <BarChart3 size={30} />
 
           <h2>Mi progreso</h2>
-
           <p>Precisión, dominio, fortalezas y temas a reforzar.</p>
 
           <Link className="text-link" to="/progreso">
@@ -230,7 +300,6 @@ function DashboardPage() {
           <RotateCcw size={30} />
 
           <h2>Practicar errores</h2>
-
           <p>Refuerzo personalizado con preguntas que aún no dominas.</p>
 
           <Link className="text-link" to="/practicar-errores">
@@ -241,16 +310,23 @@ function DashboardPage() {
 
       <section
         className="feature-card"
-        style={{
-          marginTop: '28px',
-        }}
+        style={{ marginTop: '28px' }}
       >
-        <h2>Mis materias</h2>
+        <div className="subject-section-heading">
+          <div>
+            <p className="eyebrow">
+              {selectedSemester?.name || 'Semestre'}
+            </p>
+            <h2>Mis materias</h2>
+          </div>
+
+          <span className="status-badge">
+            {visibleSubjects.length} materias
+          </span>
+        </div>
 
         {loadingSubjects && (
-          <p>
-            Cargando materias...
-          </p>
+          <p>Cargando materias...</p>
         )}
 
         {subjectError && (
@@ -260,25 +336,31 @@ function DashboardPage() {
         )}
 
         {!loadingSubjects &&
-          !subjectError && (
+          !subjectError &&
+          visibleSubjects.length === 0 && (
+            <p>
+              No hay materias publicadas para este semestre.
+            </p>
+          )}
+
+        {!loadingSubjects &&
+          !subjectError &&
+          visibleSubjects.length > 0 && (
             <div className="subject-list">
-              {subjects.map(
+              {visibleSubjects.map(
                 (subject) => (
                   <article
                     className="subject-row"
                     key={subject.id}
                   >
                     <div>
-                      <strong>
-                        {subject.name}
-                      </strong>
+                      <strong>{subject.name}</strong>
 
                       <p>
-                        {subject.code}
-                        {' · '}
-                        {subject.credits}
-                        {' '}
-                        créditos
+                        {subject.code || 'SIN CÓDIGO'}
+                        {subject.credits != null
+                          ? ` · ${subject.credits} créditos`
+                          : ' · créditos pendientes'}
                       </p>
                     </div>
 
@@ -295,15 +377,8 @@ function DashboardPage() {
           )}
       </section>
 
-      <div
-        style={{
-          marginTop: '24px',
-        }}
-      >
-        <Link
-          to="/"
-          className="back-link"
-        >
+      <div style={{ marginTop: '24px' }}>
+        <Link to="/" className="back-link">
           ← Inicio
         </Link>
       </div>

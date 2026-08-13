@@ -55,10 +55,10 @@ export async function loadReleaseReadiness(levelNumber = 4) {
   }
 }
 
-export function buildReadinessExport(data) {
+export function buildReadinessExport(data, levelNumber = 4) {
   return {
     generated_at: new Date().toISOString(),
-    target: 'Derecho Estudio v1.0 - Cuarto semestre',
+    target: `Derecho Estudio - semestre ${levelNumber}`,
     summary: data.summary,
     subjects: data.subjects,
     units: data.units,
