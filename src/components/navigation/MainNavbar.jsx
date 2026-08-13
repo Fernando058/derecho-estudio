@@ -1,7 +1,6 @@
 import {
-  BookOpenCheck,
+  BookMarked,
   House,
-  Info,
   LayoutDashboard,
   LogIn,
   Scale,
@@ -27,7 +26,6 @@ function MainNavbar() {
     isAdmin,
   } = useAuth()
 
-  // El administrador ya dispone de una navegación lateral completa.
   if (location.pathname.startsWith('/admin')) {
     return null
   }
@@ -77,7 +75,7 @@ function MainNavbar() {
               className={navClass}
               to="/documentos"
             >
-              <BookOpenCheck size={18} />
+              <BookMarked size={18} />
               <span>Biblioteca</span>
             </NavLink>
           )}
@@ -86,7 +84,7 @@ function MainNavbar() {
             className={navClass}
             to="/acerca"
           >
-            <Info size={18} />
+            <Scale size={18} />
             <span>Acerca de</span>
           </NavLink>
 

@@ -2,17 +2,15 @@ import {
   BarChart3,
   BadgeCheck,
   BookMarked,
-  BookOpen,
+  BookOpenCheck,
+  FileBadge2,
   FilePenLine,
   FileQuestion,
   FileText,
-  GraduationCap,
-  Home,
   LayoutDashboard,
-  Layers3,
   ListTree,
   Scale,
-  Settings2,
+  ScrollText,
   ShieldCheck,
   Users,
 } from 'lucide-react'
@@ -20,17 +18,17 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 const navItems = [
-  { to: '/admin', label: 'Resumen', icon: Home, end: true },
-  { to: '/admin/semestres', label: 'Semestres', icon: Layers3 },
-  { to: '/admin/materias', label: 'Materias', icon: BookOpen },
-  { to: '/admin/unidades', label: 'Unidades', icon: GraduationCap },
+  { to: '/admin', label: 'Resumen', icon: Scale, end: true },
+  { to: '/admin/semestres', label: 'Semestres', icon: BookMarked },
+  { to: '/admin/materias', label: 'Materias', icon: BookOpenCheck },
+  { to: '/admin/unidades', label: 'Unidades', icon: FileBadge2 },
   { to: '/admin/temas', label: 'Temas', icon: ListTree },
-  { to: '/admin/documentos', label: 'Documentos', icon: FileText },
+  { to: '/admin/documentos', label: 'Documentos', icon: ScrollText },
   { to: '/admin/contenido', label: 'Contenido', icon: FilePenLine },
   { to: '/admin/normativa', label: 'Normativa', icon: Scale },
   { to: '/admin/lecturas', label: 'Lecturas', icon: BookMarked },
   { to: '/admin/preguntas', label: 'Preguntas', icon: FileQuestion },
-  { to: '/admin/simuladores', label: 'Simuladores', icon: Settings2 },
+  { to: '/admin/simuladores', label: 'Simuladores', icon: ShieldCheck },
   { to: '/admin/analitica', label: 'Analítica', icon: BarChart3 },
   { to: '/admin/usuarios', label: 'Usuarios', icon: Users },
   { to: '/admin/validacion', label: 'Validación v1.0', icon: BadgeCheck },
@@ -43,7 +41,7 @@ function AdminShell({ title, description, children, actions }) {
     <main className="admin-page">
       <aside className="admin-sidebar">
         <div className="admin-brand">
-          <ShieldCheck size={28} />
+          <Scale size={28} />
           <div>
             <strong>Lex Academia</strong>
             <span>Administración</span>
