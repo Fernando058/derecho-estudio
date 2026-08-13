@@ -3,7 +3,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 
 function AdminRoute({ children }) {
   const { session, profile, loading } = useAuth()

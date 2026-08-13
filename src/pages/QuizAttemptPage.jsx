@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock3,
-  FileQuestion,
   Flag,
   LoaderCircle,
   LogOut,
@@ -80,6 +79,35 @@ function QuizAttemptPage() {
     setSelectedOptionId(currentQuestion?.selected_option_id || '')
   }, [currentIndex, currentQuestion?.attempt_question_id, currentQuestion?.selected_option_id])
 
+  const answeredCount = useMemo(
+    () => (data?.questions ?? []).filter((question) => question.selected_option_id).length,
+    [data],
+  )
+
+  const handleFinish = useCallback(async (askConfirmation = true) => {
+    if (finishing) return
+
+    if (askConfirmation) {
+      const confirmed = window.confirm(
+        `Has respondido ${answeredCount} de ${data?.attempt?.total_questions ?? 0} preguntas. ¿Deseas finalizar el intento?`,
+      )
+      if (!confirmed) return
+    }
+
+    setFinishing(true)
+    setError('')
+
+    try {
+      await finishQuizAttempt(attemptId)
+      navigate(`/simuladores/intentos/${attemptId}/resultados`, { replace: true })
+    } catch (finishError) {
+      setError(finishError.message)
+      autoFinishRef.current = false
+    } finally {
+      setFinishing(false)
+    }
+  }, [answeredCount, attemptId, data?.attempt?.total_questions, finishing, navigate])
+
   useEffect(() => {
     const attempt = data?.attempt
     if (!attempt?.time_limit_minutes || attempt.status !== 'in_progress') {
@@ -103,12 +131,7 @@ function QuizAttemptPage() {
     tick()
     const timer = window.setInterval(tick, 1000)
     return () => window.clearInterval(timer)
-  }, [data?.attempt?.id, data?.attempt?.started_at, data?.attempt?.status, data?.attempt?.time_limit_minutes])
-
-  const answeredCount = useMemo(
-    () => (data?.questions ?? []).filter((question) => question.selected_option_id).length,
-    [data],
-  )
+  }, [data?.attempt, handleFinish])
 
   const feedback = currentQuestion
     ? practiceFeedback[currentQuestion.attempt_question_id]
@@ -156,30 +179,6 @@ function QuizAttemptPage() {
       setError(saveError.message)
     } finally {
       setSaving(false)
-    }
-  }
-
-  async function handleFinish(askConfirmation = true) {
-    if (finishing) return
-
-    if (askConfirmation) {
-      const confirmed = window.confirm(
-        `Has respondido ${answeredCount} de ${data?.attempt?.total_questions ?? 0} preguntas. ¿Deseas finalizar el intento?`,
-      )
-      if (!confirmed) return
-    }
-
-    setFinishing(true)
-    setError('')
-
-    try {
-      await finishQuizAttempt(attemptId)
-      navigate(`/simuladores/intentos/${attemptId}/resultados`, { replace: true })
-    } catch (finishError) {
-      setError(finishError.message)
-      autoFinishRef.current = false
-    } finally {
-      setFinishing(false)
     }
   }
 
@@ -246,7 +245,11 @@ function QuizAttemptPage() {
           </p>
           <h1>
             {attempt.subject.name}
-            {attempt.unit ? ` · Unidad ${attempt.unit.unit_number}` : ' · Simulador final'}
+            {attempt.quiz_type === 'practice_errors'
+              ? ' · Refuerzo de errores'
+              : attempt.unit
+                ? ` · Unidad ${attempt.unit.unit_number}`
+                : ' · Simulador final'}
           </h1>
         </div>
 

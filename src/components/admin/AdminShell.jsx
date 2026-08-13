@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   BookMarked,
   BookOpen,
   FilePenLine,
@@ -9,10 +10,11 @@ import {
   Layers3,
   ListTree,
   Scale,
+  Settings2,
   ShieldCheck,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 
 const navItems = [
   { to: '/admin', label: 'Resumen', icon: Home, end: true },
@@ -25,6 +27,8 @@ const navItems = [
   { to: '/admin/normativa', label: 'Normativa', icon: Scale },
   { to: '/admin/lecturas', label: 'Lecturas', icon: BookMarked },
   { to: '/admin/preguntas', label: 'Preguntas', icon: FileQuestion },
+  { to: '/admin/simuladores', label: 'Simuladores', icon: Settings2 },
+  { to: '/admin/analitica', label: 'Analítica', icon: BarChart3 },
 ]
 
 function AdminShell({ title, description, children, actions }) {

@@ -25,7 +25,7 @@ import {
 import PdfViewer from './components/pdf/PdfViewer'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import AdminRoute from './components/auth/AdminRoute'
-import { useAuth } from './context/AuthContext'
+import { useAuth } from './hooks/useAuth'
 
 const SupabaseTestPage = lazy(() => import('./pages/SupabaseTestPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
@@ -39,6 +39,8 @@ const UnitStudyPage = lazy(() => import('./pages/UnitStudyPage'))
 const QuizAttemptPage = lazy(() => import('./pages/QuizAttemptPage'))
 const QuizResultPage = lazy(() => import('./pages/QuizResultPage'))
 const AttemptsPage = lazy(() => import('./pages/AttemptsPage'))
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
+const ErrorPracticePage = lazy(() => import('./pages/ErrorPracticePage'))
 
 const AdminSemestersPage = lazy(() => import('./pages/admin/AdminSemestersPage'))
 const AdminSubjectsPage = lazy(() => import('./pages/admin/AdminSubjectsPage'))
@@ -50,6 +52,8 @@ const AdminLegalPage = lazy(() => import('./pages/admin/AdminLegalPage'))
 const AdminReadingsPage = lazy(() => import('./pages/admin/AdminReadingsPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 const AdminQuestionImportPage = lazy(() => import('./pages/admin/AdminQuestionImportPage'))
+const AdminQuizConfigsPage = lazy(() => import('./pages/admin/AdminQuizConfigsPage'))
+const AdminAnalyticsPage = lazy(() => import('./pages/admin/AdminAnalyticsPage'))
 
 function RouteLoader() {
   return (
@@ -293,6 +297,24 @@ function App() {
         />
 
         <Route
+          path="/progreso"
+          element={
+            <ProtectedRoute>
+              <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/practicar-errores"
+          element={
+            <ProtectedRoute>
+              <ErrorPracticePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/documentos"
           element={
             <ProtectedRoute>
@@ -396,6 +418,24 @@ function App() {
           element={
             <AdminRoute>
               <AdminQuestionsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/simuladores"
+          element={
+            <AdminRoute>
+              <AdminQuizConfigsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/analitica"
+          element={
+            <AdminRoute>
+              <AdminAnalyticsPage />
             </AdminRoute>
           }
         />

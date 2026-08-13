@@ -9,18 +9,20 @@ import {
 } from 'react-router-dom'
 
 import {
+  BarChart3,
   BookOpen,
   FileQuestion,
   FileText,
   GraduationCap,
   LogOut,
+  RotateCcw,
   ShieldCheck,
   User,
 } from 'lucide-react'
 
 import { supabase } from '../lib/supabase'
 
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 
 function DashboardPage() {
   const navigate = useNavigate()
@@ -203,6 +205,30 @@ function DashboardPage() {
 
           <Link className="text-link" to="/intentos">
             Ver historial →
+          </Link>
+        </article>
+
+        <article className="dashboard-card">
+          <BarChart3 size={30} />
+
+          <h2>Mi progreso</h2>
+
+          <p>Precisión, dominio, fortalezas y temas a reforzar.</p>
+
+          <Link className="text-link" to="/progreso">
+            Ver analítica →
+          </Link>
+        </article>
+
+        <article className="dashboard-card">
+          <RotateCcw size={30} />
+
+          <h2>Practicar errores</h2>
+
+          <p>Refuerzo personalizado con preguntas que aún no dominas.</p>
+
+          <Link className="text-link" to="/practicar-errores">
+            Iniciar refuerzo →
           </Link>
         </article>
       </section>

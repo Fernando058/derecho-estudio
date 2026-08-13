@@ -9,7 +9,7 @@ Plataforma web de apoyo académico para estudiantes de Derecho.
 - GitHub + GitHub Pages
 - Google Drive para compendios PDF
 
-## Estado actual — v0.5
+## Estado actual — v0.7
 - Autenticación y roles.
 - Panel del estudiante.
 - Administración académica.
@@ -23,6 +23,12 @@ Plataforma web de apoyo académico para estudiantes de Derecho.
 - Feedback individual por alternativa.
 - Importación masiva CSV/XLSX/XLS.
 - Configuración de simuladores: 30 preguntas por unidad y 100 por materia.
+- Motor seguro de simuladores y corrección.
+- Historial de intentos.
+- Analítica personal por materia, unidad y tema.
+- Práctica personalizada de errores.
+- Analítica administrativa de rendimiento.
+- Configuración administrativa de tiempos, aleatorización y distribución final.
 
 ## Regla de evaluación
 Cada unidad dispone de un simulador de 30 preguntas exclusivamente de esa unidad. Cada materia dispone de un simulador final de 100 preguntas que integra sus cuatro unidades.
@@ -45,4 +51,4 @@ npx supabase migration list
 npx supabase db push
 ```
 
-Consulta `ACTUALIZACION_v0.5.md` para las instrucciones de esta versión.
+Consulta `ACTUALIZACION_v0.7.md` para las instrucciones de esta versión.

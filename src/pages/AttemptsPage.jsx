@@ -91,9 +91,11 @@ function AttemptsPage() {
                   </span>
                   <h2>{attempt.subject?.name}</h2>
                   <p>
-                    {attempt.unit
-                      ? `Unidad ${attempt.unit.unit_number} · ${attempt.unit.title}`
-                      : 'Simulador final de la materia'}
+                    {attempt.quiz_type === 'practice_errors'
+                      ? 'Refuerzo personalizado de errores'
+                      : attempt.unit
+                        ? `Unidad ${attempt.unit.unit_number} · ${attempt.unit.title}`
+                        : 'Simulador final de la materia'}
                   </p>
                   <small>
                     <Clock3 size={14} /> {new Date(attempt.started_at).toLocaleString()}

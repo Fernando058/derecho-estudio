@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
+  BarChart3,
   BookMarked,
   BookOpen,
   FilePenLine,
@@ -9,6 +10,7 @@ import {
   Layers3,
   ListTree,
   Scale,
+  Settings2,
   Users,
 } from 'lucide-react'
 import AdminShell from '../components/admin/AdminShell'
@@ -68,6 +70,18 @@ const modules = [
     description: 'Banco de preguntas, respuestas protegidas, feedback e importación masiva.',
     icon: FileQuestion,
   },
+  {
+    to: '/admin/simuladores',
+    title: 'Simuladores',
+    description: 'Tiempos, aleatorización, disponibilidad y distribución del examen final.',
+    icon: Settings2,
+  },
+  {
+    to: '/admin/analitica',
+    title: 'Analítica',
+    description: 'Rendimiento global, temas débiles y preguntas con mayor dificultad.',
+    icon: BarChart3,
+  },
 ]
 
 const futureModules = [
@@ -82,11 +96,11 @@ function AdminPage() {
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.5</strong>
-          <span>Banco de preguntas e importación masiva</span>
+          <strong>v0.7</strong>
+          <span>Analítica y refuerzo personalizado</span>
         </article>
         <article className="admin-stat-card">
-          <strong>9</strong>
+          <strong>11</strong>
           <span>Módulos administrativos disponibles</span>
         </article>
         <article className="admin-stat-card">
@@ -119,7 +133,7 @@ function AdminPage() {
         <div className="admin-card-heading">
           <div>
             <h2>Próximos módulos</h2>
-            <p>La siguiente fase habilitará el motor de simuladores y la corrección segura de intentos.</p>
+            <p>La siguiente fase se centrará en usuarios, permisos avanzados y consolidación del contenido académico.</p>
           </div>
         </div>
 

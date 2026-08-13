@@ -1,15 +1,11 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 
 import { supabase } from '../lib/supabase'
-
-const AuthContext = createContext(null)
+import { AuthContext } from './authContext'
 
 function getAppRedirectUrl() {
   return new URL(
@@ -24,31 +20,24 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   const loadProfile = useCallback(async (userId) => {
-    if (!userId) {
-      return null
-    }
+    if (!userId) return null
 
     const { data, error } = await supabase
       .from('profiles')
-      .select(
-        `
-          id,
-          email,
-          full_name,
-          role,
-          avatar_url,
-          is_active,
-          created_at,
-          updated_at
-        `,
-      )
+      .select(`
+        id,
+        email,
+        full_name,
+        role,
+        avatar_url,
+        is_active,
+        created_at,
+        updated_at
+      `)
       .eq('id', userId)
       .maybeSingle()
 
-    if (error) {
-      throw error
-    }
-
+    if (error) throw error
     return data
   }, [])
 
@@ -63,17 +52,10 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        const nextProfile = await loadProfile(
-          nextSession.user.id,
-        )
-
+        const nextProfile = await loadProfile(nextSession.user.id)
         setProfile(nextProfile)
       } catch (error) {
-        console.error(
-          'Error cargando perfil:',
-          error,
-        )
-
+        console.error('Error cargando perfil:', error)
         setProfile(null)
       } finally {
         setLoading(false)
@@ -87,20 +69,16 @@ export function AuthProvider({ children }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(
-      (_event, nextSession) => {
-        setLoading(true)
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setLoading(true)
 
-        // Supabase recomienda diferir las llamadas async realizadas como
-        // reacción a onAuthStateChange para evitar bloqueos del cliente.
-        const timerId = window.setTimeout(() => {
-          pendingTimers.delete(timerId)
-          void hydrateSession(nextSession)
-        }, 0)
+      const timerId = window.setTimeout(() => {
+        pendingTimers.delete(timerId)
+        void hydrateSession(nextSession)
+      }, 0)
 
-        pendingTimers.add(timerId)
-      },
-    )
+      pendingTimers.add(timerId)
+    })
 
     return () => {
       subscription.unsubscribe()
@@ -108,11 +86,7 @@ export function AuthProvider({ children }) {
     }
   }, [hydrateSession])
 
-  async function signUp({
-    fullName,
-    email,
-    password,
-  }) {
+  const signUp = useCallback(async ({ fullName, email, password }) => {
     return supabase.auth.signUp({
       email: email.trim(),
       password,
@@ -123,80 +97,47 @@ export function AuthProvider({ children }) {
         emailRedirectTo: getAppRedirectUrl(),
       },
     })
-  }
+  }, [])
 
-  async function signIn({
-    email,
-    password,
-  }) {
+  const signIn = useCallback(async ({ email, password }) => {
     return supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     })
-  }
+  }, [])
 
-  async function signOut() {
+  const signOut = useCallback(async () => {
     return supabase.auth.signOut()
-  }
+  }, [])
 
-  async function refreshProfile() {
+  const refreshProfile = useCallback(async () => {
     if (!session?.user?.id) {
       setProfile(null)
       return null
     }
 
-    const nextProfile = await loadProfile(
-      session.user.id,
-    )
-
+    const nextProfile = await loadProfile(session.user.id)
     setProfile(nextProfile)
-
     return nextProfile
+  }, [loadProfile, session?.user?.id])
+
+  const value = {
+    session,
+    user: session?.user ?? null,
+    profile,
+    loading,
+    isAuthenticated: Boolean(session),
+    isAdmin: profile?.role === 'admin' || profile?.role === 'superadmin',
+    isSuperAdmin: profile?.role === 'superadmin',
+    signUp,
+    signIn,
+    signOut,
+    refreshProfile,
   }
-
-  const value = useMemo(
-    () => ({
-      session,
-      user: session?.user ?? null,
-      profile,
-      loading,
-
-      isAuthenticated: Boolean(session),
-
-      isAdmin:
-        profile?.role === 'admin' ||
-        profile?.role === 'superadmin',
-
-      isSuperAdmin:
-        profile?.role === 'superadmin',
-
-      signUp,
-      signIn,
-      signOut,
-      refreshProfile,
-    }),
-    [
-      session,
-      profile,
-      loading,
-    ],
-  )
 
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   )
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-
-  if (!context) {
-    throw new Error(
-      'useAuth debe utilizarse dentro de AuthProvider',
-    )
-  }
-
-  return context
 }

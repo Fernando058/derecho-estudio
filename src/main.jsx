@@ -14,7 +14,7 @@ import App from './App.jsx'
 
 import {
   AuthProvider,
-} from './context/AuthContext'
+} from './context/AuthContext.jsx'
 
 createRoot(
   document.getElementById('root'),

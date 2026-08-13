@@ -112,9 +112,11 @@ function QuizResultPage() {
           </p>
           <h1>{subject.name}</h1>
           <p>
-            {unit
-              ? `Unidad ${unit.unit_number} · ${unit.title}`
-              : 'Simulador final de la materia'}
+            {summary.quiz_type === 'practice_errors'
+              ? 'Refuerzo personalizado de errores'
+              : unit
+                ? `Unidad ${unit.unit_number} · ${unit.title}`
+                : 'Simulador final de la materia'}
           </p>
         </div>
 
