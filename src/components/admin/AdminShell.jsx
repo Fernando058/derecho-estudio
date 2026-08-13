@@ -8,6 +8,7 @@ import {
   FileText,
   GraduationCap,
   Home,
+  LayoutDashboard,
   Layers3,
   ListTree,
   Scale,
@@ -49,6 +50,14 @@ function AdminShell({ title, description, children, actions }) {
           </div>
         </div>
 
+        <NavLink
+          className="admin-dashboard-shortcut"
+          to="/dashboard"
+        >
+          <LayoutDashboard size={18} />
+          <span>Volver al Dashboard</span>
+        </NavLink>
+
         <nav className="admin-nav" aria-label="Navegación administrativa">
           {navItems.map(({ to, label, icon: Icon, end, disabled }) => {
             if (disabled) {
@@ -84,7 +93,8 @@ function AdminShell({ title, description, children, actions }) {
           <strong>{profile?.full_name || 'Administrador'}</strong>
           <span>{profile?.email}</span>
           <NavLink className="admin-back-link" to="/dashboard">
-            ← Volver al dashboard
+            <LayoutDashboard size={16} />
+            Volver al Dashboard
           </NavLink>
         </div>
       </aside>
