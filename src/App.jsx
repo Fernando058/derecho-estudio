@@ -86,16 +86,15 @@ function HomePage() {
       <section className="hero hero-legal">
         <div className="hero-legal-copy">
           <p className="eyebrow">
-            Plataforma académica jurídica
+            Plataforma Académica Jurídica
           </p>
 
           <h1>
-            Derecho Estudio
+            LEX ACADEMIA
           </h1>
 
           <p className="hero-description">
-            Plataforma de apoyo académico para estudiar Derecho por semestres, materias,
-            unidades, base legal, compendios y simuladores con retroalimentación para mejorar.
+            Estudio, práctica y evaluación para la formación en Derecho.
           </p>
 
           <div className="hero-actions">

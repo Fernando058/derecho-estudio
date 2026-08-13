@@ -26,7 +26,7 @@ function InactiveAccountPage() {
 
         <p className="auth-description">
           La cuenta {profile?.email || ''} se encuentra desactivada
-          para el acceso a las funciones privadas de Derecho Estudio.
+          para el acceso a las funciones privadas de Lex Academia.
           Contacta al administrador si consideras que se trata de un error.
         </p>
 

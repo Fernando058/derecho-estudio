@@ -171,7 +171,7 @@ function RegisterPage() {
         <GraduationCap size={48} />
 
         <p className="eyebrow">
-          Derecho Estudio
+          Lex Academia
         </p>
 
         <h1>Crear cuenta</h1>

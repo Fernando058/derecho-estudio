@@ -44,7 +44,7 @@ function AdminShell({ title, description, children, actions }) {
         <div className="admin-brand">
           <ShieldCheck size={28} />
           <div>
-            <strong>Derecho Estudio</strong>
+            <strong>Lex Academia</strong>
             <span>Administración</span>
           </div>
         </div>

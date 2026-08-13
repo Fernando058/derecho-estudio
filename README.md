@@ -1,4 +1,4 @@
-# Derecho Estudio
+# Lex Academia
 
 Plataforma web de apoyo académico para estudiantes de Derecho.
 

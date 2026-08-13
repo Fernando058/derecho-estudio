@@ -16,7 +16,7 @@ function NotFoundPage() {
         <h1>Página no encontrada</h1>
 
         <p className="auth-description">
-          La dirección solicitada no corresponde a un módulo disponible de Derecho Estudio.
+          La dirección solicitada no corresponde a un módulo disponible de Lex Academia.
         </p>
 
         <Link

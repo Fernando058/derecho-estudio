@@ -43,7 +43,7 @@ function ForgotPasswordPage() {
     <main className="auth-shell">
       <section className="auth-card">
         <GraduationCap size={48} />
-        <p className="eyebrow">Derecho Estudio</p>
+        <p className="eyebrow">Lex Academia</p>
         <h1>Recuperar contraseña</h1>
 
         <p className="auth-description">

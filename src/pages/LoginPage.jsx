@@ -104,7 +104,7 @@ function LoginPage() {
         <GraduationCap size={48} />
 
         <p className="eyebrow">
-          Derecho Estudio
+          Lex Academia
         </p>
 
         <h1>Iniciar sesión</h1>

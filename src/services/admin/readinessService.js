@@ -58,7 +58,7 @@ export async function loadReleaseReadiness(levelNumber = 4) {
 export function buildReadinessExport(data, levelNumber = 4) {
   return {
     generated_at: new Date().toISOString(),
-    target: `Derecho Estudio - semestre ${levelNumber}`,
+    target: `Lex Academia - semestre ${levelNumber}`,
     summary: data.summary,
     subjects: data.subjects,
     units: data.units,
