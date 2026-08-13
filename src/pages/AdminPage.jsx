@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
   BarChart3,
+  BadgeCheck,
   BookMarked,
   BookOpen,
   FilePenLine,
@@ -88,6 +89,12 @@ const modules = [
     description: 'Gestionar estudiantes, administradores, estado de acceso y permisos.',
     icon: Users,
   },
+  {
+    to: '/admin/validacion',
+    title: 'Validación v1.0',
+    description: 'Auditar estructura, contenido, preguntas, simuladores y dataset del cuarto semestre.',
+    icon: BadgeCheck,
+  },
 ]
 
 const futureModules = []
@@ -96,15 +103,15 @@ function AdminPage() {
   return (
     <AdminShell
       title="Resumen administrativo"
-      description="Gestiona la estructura, contenido jurídico, normativa, lecturas, documentos y banco de preguntas de Derecho Estudio."
+      description="Gestiona la plataforma y verifica la preparación integral del cuarto semestre antes de v1.0."
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.8</strong>
-          <span>Usuarios, perfil y recuperación segura</span>
+          <strong>v0.9</strong>
+          <span>Consolidación y validación para v1.0</span>
         </article>
         <article className="admin-stat-card">
-          <strong>12</strong>
+          <strong>13</strong>
           <span>Módulos administrativos disponibles</span>
         </article>
         <article className="admin-stat-card">

@@ -6,7 +6,6 @@ import {
 
 import {
   Link,
-  Navigate,
   Route,
   Routes,
 } from 'react-router-dom'
@@ -34,6 +33,7 @@ const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
 const ProfilePage = lazy(() => import('./pages/ProfilePage'))
 const InactiveAccountPage = lazy(() => import('./pages/InactiveAccountPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const DocumentsPage = lazy(() => import('./pages/DocumentsPage'))
@@ -59,6 +59,7 @@ const AdminQuestionImportPage = lazy(() => import('./pages/admin/AdminQuestionIm
 const AdminQuizConfigsPage = lazy(() => import('./pages/admin/AdminQuizConfigsPage'))
 const AdminAnalyticsPage = lazy(() => import('./pages/admin/AdminAnalyticsPage'))
 const AdminUsersPage = lazy(() => import('./pages/admin/AdminUsersPage'))
+const AdminReadinessPage = lazy(() => import('./pages/admin/AdminReadinessPage'))
 
 function RouteLoader() {
   return (
@@ -467,6 +468,15 @@ function App() {
         />
 
         <Route
+          path="/admin/validacion"
+          element={
+            <AdminRoute>
+              <AdminReadinessPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
           path="/admin/preguntas/importar"
           element={
             <AdminRoute>
@@ -475,7 +485,7 @@ function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   )

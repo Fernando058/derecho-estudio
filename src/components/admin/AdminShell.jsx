@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  BadgeCheck,
   BookMarked,
   BookOpen,
   FilePenLine,
@@ -31,6 +32,7 @@ const navItems = [
   { to: '/admin/simuladores', label: 'Simuladores', icon: Settings2 },
   { to: '/admin/analitica', label: 'Analítica', icon: BarChart3 },
   { to: '/admin/usuarios', label: 'Usuarios', icon: Users },
+  { to: '/admin/validacion', label: 'Validación v1.0', icon: BadgeCheck },
 ]
 
 function AdminShell({ title, description, children, actions }) {

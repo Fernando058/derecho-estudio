@@ -57,3 +57,8 @@ Consulta `ACTUALIZACION_v0.7.md` para las instrucciones de esta versión.
 ## Estado actual
 
 Versión técnica actual: **v0.8.0** — usuarios, perfil y recuperación segura.
+
+
+## v0.9
+
+Consolidación, auditoría de preparación para v1.0 y trazabilidad del dataset académico integral.
