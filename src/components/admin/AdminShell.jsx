@@ -12,6 +12,7 @@ import {
   Scale,
   Settings2,
   ShieldCheck,
+  Users,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
@@ -29,6 +30,7 @@ const navItems = [
   { to: '/admin/preguntas', label: 'Preguntas', icon: FileQuestion },
   { to: '/admin/simuladores', label: 'Simuladores', icon: Settings2 },
   { to: '/admin/analitica', label: 'Analítica', icon: BarChart3 },
+  { to: '/admin/usuarios', label: 'Usuarios', icon: Users },
 ]
 
 function AdminShell({ title, description, children, actions }) {

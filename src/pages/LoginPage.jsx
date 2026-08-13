@@ -171,6 +171,15 @@ function LoginPage() {
           </button>
         </form>
 
+        <p className="auth-helper-row">
+          <Link
+            to="/recuperar-contrasena"
+            className="text-link"
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </p>
+
         <p className="auth-footer">
           ¿No tienes cuenta?
           {' '}

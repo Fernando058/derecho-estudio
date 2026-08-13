@@ -4,12 +4,12 @@ import {
 } from 'react-router-dom'
 
 import { LoaderCircle } from 'lucide-react'
-
 import { useAuth } from '../../hooks/useAuth'
 
 function ProtectedRoute({ children }) {
   const {
     session,
+    profile,
     loading,
   } = useAuth()
 
@@ -19,7 +19,7 @@ function ProtectedRoute({ children }) {
     return (
       <main className="page">
         <section className="loading-state">
-          <LoaderCircle size={36} />
+          <LoaderCircle className="spin" size={36} />
           <h2>Verificando sesión...</h2>
         </section>
       </main>
@@ -31,11 +31,13 @@ function ProtectedRoute({ children }) {
       <Navigate
         to="/login"
         replace
-        state={{
-          from: location.pathname,
-        }}
+        state={{ from: location.pathname }}
       />
     )
+  }
+
+  if (profile?.is_active === false) {
+    return <Navigate to="/cuenta-inactiva" replace />
   }
 
   return children

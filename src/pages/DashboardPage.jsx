@@ -160,6 +160,12 @@ function DashboardPage() {
             {profile?.role ||
               'student'}
           </span>
+
+          <div style={{ marginTop: '14px' }}>
+            <Link className="text-link" to="/perfil">
+              Administrar perfil →
+            </Link>
+          </div>
         </article>
 
         <article className="dashboard-card">

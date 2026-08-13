@@ -30,6 +30,10 @@ import { useAuth } from './hooks/useAuth'
 const SupabaseTestPage = lazy(() => import('./pages/SupabaseTestPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
+const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
+const ProfilePage = lazy(() => import('./pages/ProfilePage'))
+const InactiveAccountPage = lazy(() => import('./pages/InactiveAccountPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const DocumentsPage = lazy(() => import('./pages/DocumentsPage'))
@@ -54,6 +58,7 @@ const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage')
 const AdminQuestionImportPage = lazy(() => import('./pages/admin/AdminQuestionImportPage'))
 const AdminQuizConfigsPage = lazy(() => import('./pages/admin/AdminQuizConfigsPage'))
 const AdminAnalyticsPage = lazy(() => import('./pages/admin/AdminAnalyticsPage'))
+const AdminUsersPage = lazy(() => import('./pages/admin/AdminUsersPage'))
 
 function RouteLoader() {
   return (
@@ -239,6 +244,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
+        <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+        <Route path="/actualizar-contrasena" element={<UpdatePasswordPage />} />
+        <Route path="/cuenta-inactiva" element={<InactiveAccountPage />} />
         <Route path="/visor" element={<PdfTestPage />} />
         <Route path="/conexion" element={<SupabaseTestPage />} />
 
@@ -247,6 +255,15 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />
@@ -436,6 +453,15 @@ function App() {
           element={
             <AdminRoute>
               <AdminAnalyticsPage />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/usuarios"
+          element={
+            <AdminRoute>
+              <AdminUsersPage />
             </AdminRoute>
           }
         />

@@ -18,6 +18,7 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [recoveryMode, setRecoveryMode] = useState(false)
 
   const loadProfile = useCallback(async (userId) => {
     if (!userId) return null
@@ -69,8 +70,20 @@ export function AuthProvider({ children }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setLoading(true)
+
+      if (event === 'PASSWORD_RECOVERY') {
+        setRecoveryMode(true)
+
+        if (window.location.hash !== '#/actualizar-contrasena') {
+          window.location.hash = '#/actualizar-contrasena'
+        }
+      }
+
+      if (event === 'SIGNED_OUT') {
+        setRecoveryMode(false)
+      }
 
       const timerId = window.setTimeout(() => {
         pendingTimers.delete(timerId)
@@ -110,6 +123,27 @@ export function AuthProvider({ children }) {
     return supabase.auth.signOut()
   }, [])
 
+  const requestPasswordReset = useCallback(async (email) => {
+    return supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      {
+        redirectTo: getAppRedirectUrl(),
+      },
+    )
+  }, [])
+
+  const updatePassword = useCallback(async (password) => {
+    const result = await supabase.auth.updateUser({
+      password,
+    })
+
+    if (!result.error) {
+      setRecoveryMode(false)
+    }
+
+    return result
+  }, [])
+
   const refreshProfile = useCallback(async () => {
     if (!session?.user?.id) {
       setProfile(null)
@@ -126,12 +160,15 @@ export function AuthProvider({ children }) {
     user: session?.user ?? null,
     profile,
     loading,
+    recoveryMode,
     isAuthenticated: Boolean(session),
     isAdmin: profile?.role === 'admin' || profile?.role === 'superadmin',
     isSuperAdmin: profile?.role === 'superadmin',
     signUp,
     signIn,
     signOut,
+    requestPasswordReset,
+    updatePassword,
     refreshProfile,
   }
 

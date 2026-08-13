@@ -52,3 +52,8 @@ npx supabase db push
 ```
 
 Consulta `ACTUALIZACION_v0.7.md` para las instrucciones de esta versión.
+
+
+## Estado actual
+
+Versión técnica actual: **v0.8.0** — usuarios, perfil y recuperación segura.

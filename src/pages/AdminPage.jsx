@@ -82,11 +82,15 @@ const modules = [
     description: 'Rendimiento global, temas débiles y preguntas con mayor dificultad.',
     icon: BarChart3,
   },
+  {
+    to: '/admin/usuarios',
+    title: 'Usuarios',
+    description: 'Gestionar estudiantes, administradores, estado de acceso y permisos.',
+    icon: Users,
+  },
 ]
 
-const futureModules = [
-  { title: 'Usuarios', description: 'Estudiantes, administradores y permisos.', icon: Users },
-]
+const futureModules = []
 
 function AdminPage() {
   return (
@@ -96,11 +100,11 @@ function AdminPage() {
     >
       <section className="admin-stats-grid">
         <article className="admin-stat-card">
-          <strong>v0.7</strong>
-          <span>Analítica y refuerzo personalizado</span>
+          <strong>v0.8</strong>
+          <span>Usuarios, perfil y recuperación segura</span>
         </article>
         <article className="admin-stat-card">
-          <strong>11</strong>
+          <strong>12</strong>
           <span>Módulos administrativos disponibles</span>
         </article>
         <article className="admin-stat-card">
@@ -129,25 +133,16 @@ function AdminPage() {
         </div>
       </section>
 
-      <section className="admin-card">
-        <div className="admin-card-heading">
-          <div>
-            <h2>Próximos módulos</h2>
-            <p>La siguiente fase se centrará en usuarios, permisos avanzados y consolidación del contenido académico.</p>
+      {futureModules.length > 0 && (
+        <section className="admin-card">
+          <div className="admin-card-heading">
+            <div>
+              <h2>Próximos módulos</h2>
+              <p>Nuevas funciones administrativas se incorporarán en fases posteriores.</p>
+            </div>
           </div>
-        </div>
-
-        <div className="admin-module-grid">
-          {futureModules.map(({ title, description, icon: Icon }) => (
-            <article className="admin-module-card is-disabled" key={title}>
-              <Icon size={28} />
-              <h3>{title}</h3>
-              <p>{description}</p>
-              <span>Próxima versión</span>
-            </article>
-          ))}
-        </div>
-      </section>
+        </section>
+      )}
     </AdminShell>
   )
 }

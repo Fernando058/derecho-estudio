@@ -2,11 +2,17 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom'
+
 import { LoaderCircle } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 
 function AdminRoute({ children }) {
-  const { session, profile, loading } = useAuth()
+  const {
+    session,
+    profile,
+    loading,
+  } = useAuth()
+
   const location = useLocation()
 
   if (loading) {
@@ -28,6 +34,10 @@ function AdminRoute({ children }) {
         to="/login"
       />
     )
+  }
+
+  if (profile?.is_active === false) {
+    return <Navigate replace to="/cuenta-inactiva" />
   }
 
   const hasAdminRole =
