@@ -379,14 +379,15 @@ function UnitStudyPage() {
           <p>
             El servidor selecciona 30 preguntas activas y verificadas de esta unidad.
             En modo examen la retroalimentación se muestra al finalizar; en modo práctica,
-            después de cada respuesta.
+            después de cada respuesta. Puedes repetir el simulador ilimitadamente para reforzar
+            tus errores y mejorar tu dominio.
           </p>
         </div>
 
         <QuizLaunchActions
           quizConfig={quizConfig}
           ready={readyQuestionCount >= (quizConfig?.question_count ?? 30)}
-          readyLabel={`${readyQuestionCount}/${quizConfig?.question_count ?? 30} preguntas listas`}
+          readyLabel={`${readyQuestionCount} preguntas disponibles · ${quizConfig?.question_count ?? 30} por intento`}
         />
       </section>
     </main>

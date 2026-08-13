@@ -126,7 +126,10 @@ function SubjectPage() {
 
             <div className="unit-study-meta">
               <span><FileText size={16} /> {documentCountByUnit.get(unit.id) || 0} documento(s)</span>
-              <span><FileQuestion size={16} /> {questionCountByUnit.get(unit.id) || 0}/30 listas</span>
+              <span>
+                <FileQuestion size={16} />
+                {questionCountByUnit.get(unit.id) || 0} disponibles · 30 por intento
+              </span>
             </div>
 
             <Link
@@ -154,7 +157,8 @@ function SubjectPage() {
           <h2>{finalRequired} preguntas de las 4 unidades</h2>
           <p>
             La distribución se toma directamente de Supabase. El intento se construye
-            en el servidor y las claves correctas permanecen protegidas hasta finalizar.
+            en el servidor, las claves correctas permanecen protegidas hasta finalizar
+            y el simulador puede repetirse tantas veces como sea necesario para mejorar.
           </p>
         </div>
 

@@ -75,11 +75,11 @@ function QuizLaunchActions({
         </button>
       </div>
 
-      {!ready && (
-        <p className="quiz-launch-note">
-          El simulador se habilitará cuando el banco alcance la cantidad requerida de preguntas activas y verificadas.
-        </p>
-      )}
+      <p className="quiz-launch-note">
+        {ready
+          ? 'Puedes repetir este simulador todas las veces que necesites. En práctica verás retroalimentación inmediata; en examen, la revisión completa aparece al finalizar.'
+          : 'El simulador permanece visible. Se habilita cuando el banco alcanza la cantidad requerida de preguntas activas y verificadas.'}
+      </p>
 
       {error && <div className="auth-message auth-error">{error}</div>}
     </div>

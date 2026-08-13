@@ -19,6 +19,7 @@ import {
   RotateCcw,
   ShieldCheck,
   User,
+  Scale,
 } from 'lucide-react'
 
 import { supabase } from '../lib/supabase'
@@ -186,6 +187,14 @@ function DashboardPage() {
             </Link>
           )}
 
+          <Link
+            to="/acerca"
+            className="button-secondary"
+          >
+            <Scale size={18} />
+            Acerca de
+          </Link>
+
           <button
             type="button"
             className="button-danger"
@@ -304,6 +313,17 @@ function DashboardPage() {
 
           <Link className="text-link" to="/practicar-errores">
             Iniciar refuerzo →
+          </Link>
+        </article>
+
+        <article className="dashboard-card">
+          <Scale size={30} />
+
+          <h2>Acerca de</h2>
+          <p>Conoce el propósito de la plataforma y a sus colaboradores.</p>
+
+          <Link className="text-link" to="/acerca">
+            Ver información →
           </Link>
         </article>
       </section>

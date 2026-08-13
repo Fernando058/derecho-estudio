@@ -18,6 +18,7 @@ import {
   LayoutDashboard,
   LoaderCircle,
   LogIn,
+  Scale,
   UserPlus,
 } from 'lucide-react'
 
@@ -35,6 +36,7 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'))
 const InactiveAccountPage = lazy(() => import('./pages/InactiveAccountPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const DocumentsPage = lazy(() => import('./pages/DocumentsPage'))
 const DocumentViewerPage = lazy(() => import('./pages/DocumentViewerPage'))
@@ -81,26 +83,23 @@ function HomePage() {
 
   return (
     <main className="page">
-      <section className="hero">
-        <GraduationCap size={58} />
+      <section className="hero hero-legal">
+        <div className="hero-legal-copy">
+          <p className="eyebrow">
+            Plataforma académica jurídica
+          </p>
 
-        <p className="eyebrow">
-          Plataforma académica
-        </p>
+          <h1>
+            Derecho Estudio
+          </h1>
 
-        <h1>
-          Derecho Estudio
-        </h1>
+          <p className="hero-description">
+            Plataforma de apoyo académico para estudiar Derecho por semestres, materias,
+            unidades, base legal, compendios y simuladores con retroalimentación para mejorar.
+          </p>
 
-        <p className="hero-description">
-          Plataforma de apoyo académico
-          para el estudio estructurado
-          de la carrera de Derecho.
-        </p>
-
-        <div className="hero-actions">
-          {!loading &&
-            !session && (
+          <div className="hero-actions">
+            {!loading && !session && (
               <>
                 <Link
                   to="/login"
@@ -120,8 +119,7 @@ function HomePage() {
               </>
             )}
 
-          {!loading &&
-            session && (
+            {!loading && session && (
               <Link
                 to="/dashboard"
                 className="primary-button"
@@ -130,33 +128,42 @@ function HomePage() {
                 Ir a mi dashboard
               </Link>
             )}
-        </div>
 
-        {session &&
-          profile && (
+            <Link
+              to="/acerca"
+              className="button-secondary"
+            >
+              <Scale size={18} />
+              Acerca de
+            </Link>
+          </div>
+
+          {session && profile && (
             <p style={{ marginTop: '20px' }}>
-              Sesión activa:{' '}
-              <strong>{profile.full_name}</strong>
+              Sesión activa: <strong>{profile.full_name}</strong>
             </p>
           )}
+        </div>
+
+        <div className="hero-legal-mark">
+          <Scale size={92} />
+        </div>
       </section>
 
       <section className="feature-grid">
         <article className="feature-card">
           <BookOpen size={32} />
-          <h2>Materias</h2>
+          <h2>Materias y unidades</h2>
           <p>
-            Organización por semestre, materia,
-            unidad, tema y subtema.
+            Organización por semestre, materia, unidad, tema y subtema con enfoque de estudio.
           </p>
         </article>
 
         <article className="feature-card">
           <FileText size={32} />
-          <h2>Compendios</h2>
+          <h2>Compendios y visor</h2>
           <p>
-            Documentos externos mediante enlaces
-            administrables de Google Drive.
+            Documentos externos administrables mediante enlaces de Google Drive y visor PDF.
           </p>
 
           <div style={{ marginTop: '20px' }}>
@@ -169,17 +176,34 @@ function HomePage() {
 
         <article className="feature-card">
           <GraduationCap size={32} />
-          <h2>Evaluación</h2>
+          <h2>Simuladores</h2>
           <p>
-            Simuladores, retroalimentación
-            y seguimiento individual.
+            Modo práctica y modo examen, repetibles sin límite y con revisión detallada.
           </p>
+        </article>
+
+        <article className="feature-card">
+          <Scale size={32} />
+          <h2>Acerca del proyecto</h2>
+          <p>
+            Consulta propósito, colaboradores y responsables del desarrollo y soporte documental.
+          </p>
+
+          <div style={{ marginTop: '20px' }}>
+            <Link to="/acerca" className="button-secondary">
+              <Scale size={18} />
+              Ver colaboradores
+            </Link>
+          </div>
         </article>
       </section>
 
       <section className="feature-card" style={{ marginTop: '28px' }}>
         <Database size={30} />
         <h2>Estado técnico</h2>
+        <p style={{ marginBottom: '12px' }}>
+          Verifica conectividad, catálogo académico y disponibilidad de la base.
+        </p>
         <Link to="/conexion" className="text-link">
           Probar conexión Supabase
         </Link>
@@ -243,6 +267,7 @@ function App() {
     <Suspense fallback={<RouteLoader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/acerca" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />

@@ -11,8 +11,8 @@ import {
   Target,
   XCircle,
 } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
-import { getQuizAttemptReview } from '../services/quizService'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getQuizAttemptReview, startQuizAttempt } from '../services/quizService'
 
 function formatDuration(seconds) {
   const value = Number(seconds || 0)
@@ -23,9 +23,11 @@ function formatDuration(seconds) {
 
 function QuizResultPage() {
   const { attemptId } = useParams()
+  const navigate = useNavigate()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [restarting, setRestarting] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -94,6 +96,22 @@ function QuizResultPage() {
   const unit = summary.unit
   const strengths = topicPerformance.filter((item) => item.answered > 0 && item.accuracy >= 80)
   const weaknesses = topicPerformance.filter((item) => item.answered > 0 && item.accuracy < 60)
+
+  async function handleRestart() {
+    if (restarting) return
+
+    setRestarting(true)
+    setError('')
+
+    try {
+      const result = await startQuizAttempt(summary.quiz_config_id, summary.mode)
+      navigate(`/simuladores/intentos/${result.attempt_id}`, { replace: true })
+    } catch (restartError) {
+      setError(restartError.message)
+    } finally {
+      setRestarting(false)
+    }
+  }
 
   return (
     <main className="page quiz-results-page">
@@ -279,6 +297,21 @@ function QuizResultPage() {
 
       <div className="quiz-result-actions">
         <Link className="button-secondary" to="/intentos">Ver historial</Link>
+
+        <button
+          type="button"
+          className="button-secondary"
+          disabled={restarting}
+          onClick={handleRestart}
+        >
+          {restarting ? (
+            <LoaderCircle className="spin" size={17} />
+          ) : (
+            <RotateCcw size={17} />
+          )}
+          Repetir simulador
+        </button>
+
         <Link className="primary-button" to={`/materias/${subject.slug}`}>
           Volver a {subject.name}
         </Link>
