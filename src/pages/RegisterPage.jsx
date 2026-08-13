@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 
 import {
-  CheckCircle2,
   GraduationCap,
   UserPlus,
 } from 'lucide-react'
@@ -28,9 +27,26 @@ function getRegisterErrorMessage(error) {
   if (
     message.includes(
       'user already registered',
+    ) ||
+    message.includes(
+      'already been registered',
     )
   ) {
     return 'Ya existe una cuenta asociada a este correo.'
+  }
+
+  if (
+    message.includes(
+      'email rate limit exceeded',
+    ) ||
+    error?.code ===
+      'over_email_send_rate_limit'
+  ) {
+    return (
+      'El registro por correo continúa solicitando una confirmación. ' +
+      'La configuración de confirmación de correo debe estar desactivada ' +
+      'en Supabase para utilizar el registro directo.'
+    )
   }
 
   return (
@@ -53,37 +69,34 @@ function RegisterPage() {
   const [password, setPassword] =
     useState('')
 
-  const [
-    confirmPassword,
-    setConfirmPassword,
-  ] = useState('')
-
   const [loading, setLoading] =
     useState(false)
 
   const [error, setError] =
     useState('')
 
-  const [success, setSuccess] =
-    useState(false)
-
   async function handleSubmit(event) {
     event.preventDefault()
 
     setError('')
-    setSuccess(false)
 
-    if (password.length < 8) {
+    const normalizedName =
+      fullName.trim()
+
+    const normalizedEmail =
+      email.trim()
+
+    if (normalizedName.length < 3) {
       setError(
-        'La contraseña debe tener al menos 8 caracteres.',
+        'Ingrese sus nombres completos.',
       )
 
       return
     }
 
-    if (password !== confirmPassword) {
+    if (password.length < 8) {
       setError(
-        'Las contraseñas no coinciden.',
+        'La contraseña debe tener al menos 8 caracteres.',
       )
 
       return
@@ -96,8 +109,8 @@ function RegisterPage() {
         data,
         error: signUpError,
       } = await signUp({
-        fullName,
-        email,
+        fullName: normalizedName,
+        email: normalizedEmail,
         password,
       })
 
@@ -105,6 +118,12 @@ function RegisterPage() {
         throw signUpError
       }
 
+      /*
+        Con "Confirm email" desactivado en Supabase,
+        signUp devuelve una sesión y el usuario puede
+        entrar inmediatamente. El trigger existente
+        on_auth_user_created crea public.profiles.
+      */
       if (data?.session) {
         navigate(
           '/dashboard',
@@ -114,10 +133,17 @@ function RegisterPage() {
         return
       }
 
-      setSuccess(true)
-
-      setPassword('')
-      setConfirmPassword('')
+      /*
+        Si no existe sesión, la confirmación de correo
+        sigue activa en el proyecto. No mostramos un
+        mensaje de "correo enviado" porque Lex Academia
+        v1.0.10 está preparada para registro directo.
+      */
+      setError(
+        'La cuenta fue registrada, pero el proyecto todavía exige ' +
+        'confirmación de correo. El administrador debe desactivar ' +
+        '"Confirm email" en Supabase.',
+      )
     } catch (registerError) {
       console.error(registerError)
 
@@ -129,40 +155,6 @@ function RegisterPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (success) {
-    return (
-      <main className="auth-shell">
-        <section className="auth-card">
-          <CheckCircle2
-            size={52}
-            className="auth-success-icon"
-          />
-
-          <h1>Cuenta creada</h1>
-
-          <p>
-            Hemos enviado un mensaje de
-            confirmación a:
-          </p>
-
-          <strong>{email}</strong>
-
-          <p>
-            Abre el correo y confirma tu
-            dirección antes de iniciar sesión.
-          </p>
-
-          <Link
-            to="/login"
-            className="primary-button"
-          >
-            Ir a iniciar sesión
-          </Link>
-        </section>
-      </main>
-    )
   }
 
   return (
@@ -177,8 +169,10 @@ function RegisterPage() {
         <h1>Crear cuenta</h1>
 
         <p className="auth-description">
-          Regístrate para guardar tu progreso,
-          resultados y estadísticas.
+          Crea tu cuenta gratuita para
+          guardar progreso, resultados y
+          estadísticas. No necesitas
+          confirmar el correo.
         </p>
 
         {error && (
@@ -205,6 +199,7 @@ function RegisterPage() {
               )
             }
             autoComplete="name"
+            minLength={3}
             required
           />
 
@@ -243,23 +238,9 @@ function RegisterPage() {
             required
           />
 
-          <label htmlFor="confirm-password">
-            Confirmar contraseña
-          </label>
-
-          <input
-            id="confirm-password"
-            type="password"
-            value={confirmPassword}
-            onChange={(event) =>
-              setConfirmPassword(
-                event.target.value,
-              )
-            }
-            autoComplete="new-password"
-            minLength={8}
-            required
-          />
+          <small className="auth-field-help">
+            Mínimo 8 caracteres.
+          </small>
 
           <button
             type="submit"
@@ -270,7 +251,7 @@ function RegisterPage() {
 
             {loading
               ? 'Creando cuenta...'
-              : 'Crear cuenta'}
+              : 'Crear cuenta gratuita'}
           </button>
         </form>
 

@@ -107,7 +107,6 @@ export function AuthProvider({ children }) {
         data: {
           full_name: fullName.trim(),
         },
-        emailRedirectTo: getAppRedirectUrl(),
       },
     })
   }, [])
