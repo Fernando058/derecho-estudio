@@ -4057,3 +4057,278 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   v1.0.6 - NAVBAR VISIBLE + CONTRASTE TIPOGRÁFICO
+   ========================================================= */
+
+.main-navbar-shell {
+  position: sticky;
+  top: 0;
+  z-index: 1400;
+  width: 100%;
+  padding: 10px 16px;
+
+  background:
+    rgba(246, 247, 250, 0.94);
+  border-bottom: 1px solid rgba(16, 32, 51, 0.10);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.main-navbar {
+  width: min(1220px, 100%);
+  min-height: 66px;
+  margin: 0 auto;
+  padding: 8px 12px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+
+  border: 1px solid rgba(16, 32, 51, 0.12);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102033 0%,
+      #182c44 72%,
+      #26384a 100%
+    );
+
+  box-shadow:
+    0 12px 28px rgba(8, 18, 36, 0.15);
+}
+
+.main-navbar-brand {
+  min-width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.main-navbar-mark {
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(201, 162, 74, 0.38);
+  border-radius: 12px;
+
+  background:
+    rgba(201, 162, 74, 0.12);
+  color: #efd99f;
+}
+
+.main-navbar-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.main-navbar-brand-copy strong {
+  color: #ffffff;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+
+  text-shadow:
+    -1px 0 rgba(5, 12, 22, 0.60),
+     0 1px rgba(5, 12, 22, 0.60),
+     1px 0 rgba(5, 12, 22, 0.60),
+     0 -1px rgba(5, 12, 22, 0.60);
+}
+
+.main-navbar-brand-copy small {
+  color: #d9e0e9;
+  font-size: 11px;
+}
+
+.main-navbar-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.main-nav-link,
+.main-nav-account-link {
+  min-height: 42px;
+  padding: 0 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  color: #e6ebf1;
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: none;
+
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.main-nav-link:hover,
+.main-nav-link.is-active {
+  border-color: rgba(201, 162, 74, 0.32);
+  background: rgba(201, 162, 74, 0.14);
+  color: #fff3cf;
+}
+
+.main-nav-link.is-active {
+  box-shadow:
+    inset 0 -2px 0 #c9a24a;
+}
+
+.main-navbar-account {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.main-nav-account-link {
+  border-color: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.main-nav-account-link:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #ffffff;
+}
+
+.main-nav-account-link.is-primary {
+  border-color: rgba(201, 162, 74, 0.48);
+  background:
+    linear-gradient(
+      135deg,
+      #d3aa4f 0%,
+      #b98d34 100%
+    );
+  color: #152234;
+}
+
+.main-nav-account-link.is-primary:hover {
+  color: #0c1725;
+  transform: translateY(-1px);
+}
+
+/* Contorno sutil para los textos sobre fondos azul oscuro. */
+.hero h1,
+.dashboard-header h1,
+.study-hero h1,
+.quiz-result-hero h1,
+.about-hero h1 {
+  text-shadow:
+    -1px -1px 0 rgba(6, 13, 22, 0.74),
+     1px -1px 0 rgba(6, 13, 22, 0.74),
+    -1px  1px 0 rgba(6, 13, 22, 0.74),
+     1px  1px 0 rgba(6, 13, 22, 0.74),
+     0 4px 12px rgba(0, 0, 0, 0.20);
+}
+
+.hero .eyebrow,
+.dashboard-header .eyebrow,
+.study-hero .eyebrow,
+.quiz-result-hero .eyebrow,
+.about-hero .eyebrow {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.70);
+}
+
+.hero .hero-description,
+.dashboard-header > div > p:not(.eyebrow),
+.study-hero > div > p:not(.eyebrow),
+.quiz-result-hero > div > p:not(.eyebrow),
+.about-hero > div > p:not(.eyebrow) {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.60);
+}
+
+/*
+  Se retira el antiguo botón flotante porque el acceso al Dashboard
+  ahora está en una barra superior persistente y más visible.
+*/
+.dashboard-return-button {
+  display: none !important;
+}
+
+@media (max-width: 1080px) {
+  .main-navbar {
+    grid-template-columns: auto 1fr;
+  }
+
+  .main-navbar-links {
+    justify-content: flex-end;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .main-navbar-account {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+@media (max-width: 760px) {
+  .main-navbar-shell {
+    padding: 8px;
+  }
+
+  .main-navbar {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .main-navbar-brand {
+    justify-content: center;
+  }
+
+  .main-navbar-links {
+    justify-content: flex-start;
+    width: 100%;
+    padding-bottom: 3px;
+  }
+
+  .main-nav-link {
+    min-width: max-content;
+    font-size: 13px;
+  }
+
+  .main-navbar-account {
+    grid-column: auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .main-navbar-brand-copy small {
+    display: none;
+  }
+
+  .main-nav-link {
+    padding: 0 11px;
+  }
+
+  .main-nav-link span {
+    display: inline;
+  }
+}

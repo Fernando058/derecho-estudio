@@ -5,7 +5,6 @@ import {
 
 import { LoaderCircle } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
-import DashboardReturnButton from '../navigation/DashboardReturnButton'
 
 function ProtectedRoute({ children }) {
   const {
@@ -41,12 +40,7 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/cuenta-inactiva" replace />
   }
 
-  return (
-    <>
-      {children}
-      <DashboardReturnButton />
-    </>
-  )
+  return children
 }
 
 export default ProtectedRoute

@@ -25,6 +25,7 @@ import {
 import PdfViewer from './components/pdf/PdfViewer'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import AdminRoute from './components/auth/AdminRoute'
+import MainNavbar from './components/navigation/MainNavbar'
 import { useAuth } from './hooks/useAuth'
 
 const SupabaseTestPage = lazy(() => import('./pages/SupabaseTestPage'))
@@ -263,8 +264,11 @@ function PdfTestPage() {
 
 function App() {
   return (
-    <Suspense fallback={<RouteLoader />}>
-      <Routes>
+    <>
+      <MainNavbar />
+
+      <Suspense fallback={<RouteLoader />}>
+        <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/acerca" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -509,9 +513,10 @@ function App() {
           }
         />
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Suspense>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </>
   )
 }
 
